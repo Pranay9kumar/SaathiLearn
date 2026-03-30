@@ -1,0 +1,155 @@
+You are a senior backend engineer building a production-ready system.
+
+Build a complete backend for a platform called "SaathiLearn" — an AI-powered student learning companion.
+
+Tech Stack:
+- Node.js
+- Express.js
+- PostgreSQL
+- Prisma ORM (preferred)
+- JWT Authentication
+- Socket.io (for real-time mentor updates)
+
+System must be modular, scalable, and clean.
+
+-----------------------------------
+CORE FEATURES TO IMPLEMENT
+-----------------------------------
+
+1. AUTH SYSTEM
+- Signup/Login (JWT-based)
+- Roles: student, mentor, admin
+- Secure password hashing (bcrypt)
+
+2. STUDENT SYSTEM
+- Fetch today's mission
+- Track progress (questions completed)
+- XP system
+- Streak system (daily consistency logic)
+
+3. MISSION ENGINE
+- Missions mapped to:
+  - class (1–12)
+  - subject
+  - topic
+- Each mission contains:
+  - multiple questions
+  - difficulty level
+- API:
+  - GET /mission/today
+  - POST /mission/submit
+
+4. GET UNSTUCK SYSTEM
+- Step 1: AI Hint API
+  - POST /ai/hint
+  - returns structured hint
+- Step 2: Mentor escalation
+  - POST /mentor/request
+  - stores request
+
+5. MENTOR SYSTEM
+- Mentor dashboard APIs:
+  - GET /mentor/students
+  - GET /mentor/requests
+  - POST /mentor/reply
+- Real-time updates using Socket.io
+
+6. NGO DASHBOARD
+- Metrics APIs:
+  - Engagement Score
+  - Consistency Index
+  - Learning Improvement
+  - At-Risk Students detection
+
+7. OFFLINE SYNC SUPPORT
+- Accept batch updates from frontend
+- Sync endpoint:
+  - POST /sync
+
+-----------------------------------
+DATABASE DESIGN (VERY IMPORTANT)
+-----------------------------------
+
+Design PostgreSQL schema with tables:
+
+Users
+- id
+- name
+- email
+- password_hash
+- role
+
+Missions
+- id
+- class
+- subject
+- topic
+
+Questions
+- id
+- mission_id
+- question
+- options
+- correct_answer
+
+Progress
+- id
+- user_id
+- mission_id
+- completed
+- score
+
+Streaks
+- user_id
+- current_streak
+- last_active_date
+
+MentorRequests
+- id
+- student_id
+- question_id
+- status
+- response
+
+XP
+- user_id
+- total_xp
+
+-----------------------------------
+ADVANCED LOGIC
+-----------------------------------
+
+- Streak logic:
+  - increase if daily login
+  - reset if missed day
+
+- At-risk detection:
+  - low streak + low completion
+
+- Mentor matching:
+  - based on subject + availability
+
+-----------------------------------
+CODE STRUCTURE
+-----------------------------------
+
+- controllers/
+- routes/
+- services/
+- middleware/
+- prisma/
+- sockets/
+
+-----------------------------------
+OUTPUT REQUIREMENTS
+-----------------------------------
+
+1. Full folder structure
+2. All API routes
+3. Prisma schema
+4. Sample controllers
+5. Middleware (auth, error handling)
+6. Socket.io setup
+7. Example requests/responses
+
+Avoid dummy code. Write realistic, production-level backend.

@@ -1,0 +1,113 @@
+.sidebar-container {
+  width: 280px;
+  height: calc(100vh - 2rem);
+  margin: 1rem 0 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  position: sticky;
+  top: 1rem;
+}
+
+.sidebar-header {
+  padding: 0 1.5rem 2rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.brand-logo {
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.user-greeting {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--rounded-lg);
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: var(--transition-normal);
+}
+
+.nav-item:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.2), transparent);
+  color: var(--primary-color);
+  border-left: 3px solid var(--primary-color);
+}
+
+.sidebar-footer {
+  padding: 1rem 1.5rem 0;
+  border-top: 1px solid var(--surface-border);
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--danger-color);
+  font-weight: 500;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: var(--rounded-lg);
+  transition: var(--transition-normal);
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 60px;
+    margin: 0;
+    height: 100vh;
+    border-radius: 0;
+    border-right: 1px solid var(--surface-border);
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+  }
+  
+  .brand-logo span, .user-greeting, .nav-item span, .logout-btn span {
+    display: none;
+  }
+  
+  .brand-logo {
+    font-size: 1.2rem;
+  }
+  
+  .nav-item {
+    padding: 1rem;
+    justify-content: center;
+  }
+  
+  .logout-btn {
+    justify-content: center;
+    padding: 1rem;
+  }
+}

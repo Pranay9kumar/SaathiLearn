@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ──────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  MENTOR
+  ADMIN
+}
+
+enum MentorRequestStatus {
+  PENDING
+  ASSIGNED
+  RESOLVED
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+// ─── Models ─────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         Role     @default(STUDENT)
+  class        Int?     // 1–12, applicable for students
+  subjects     String[] // mentor specializations or student subjects
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  progress        Progress[]
+  streak          Streak?
+  xp              XP?
+  studentRequests MentorRequest[] @relation("StudentRequests")
+  mentorRequests  MentorRequest[] @relation("MentorRequests")
+  syncLogs        SyncLog[]
+
+  @@map("users")
+}
+
+model Mission {
+  id         String     @id @default(uuid())
+  class      Int        // grade level 1-12
+  subject    String
+  topic      String
+  difficulty Difficulty @default(MEDIUM)
+  createdAt  DateTime   @default(now()) @map("created_at")
+
+  // Relations
+  questions Question[]
+  progress  Progress[]
+
+  @@index([class, subject])
+  @@map("missions")
+}
+
+model Question {
+  id            String @id @default(uuid())
+  missionId     String @map("mission_id")
+  question      String
+  options       Json   // ["option1", "option2", "option3", "option4"]
+  correctAnswer String @map("correct_answer")
+  hintText      String? @map("hint_text")
+
+  // Relations
+  mission        Mission         @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  mentorRequests MentorRequest[]
+
+  @@map("questions")
+}
+
+model Progress {
+  id          String    @id @default(uuid())
+  userId      String    @map("user_id")
+  missionId   String    @map("mission_id")
+  completed   Boolean   @default(false)
+  score       Int       @default(0) // percentage 0-100
+  answers     Json?     // student's submitted answers
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mission Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, missionId])
+  @@map("progress")
+}
+
+model Streak {
+  id             String   @id @default(uuid())
+  userId         String   @unique @map("user_id")
+  currentStreak  Int      @default(0) @map("current_streak")
+  longestStreak  Int      @default(0) @map("longest_streak")
+  lastActiveDate DateTime? @map("last_active_date")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("streaks")
+}
+
+model XP {
+  id      String @id @default(uuid())
+  userId  String @unique @map("user_id")
+  totalXp Int    @default(0) @map("total_xp")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("xp")
+}
+
+model MentorRequest {
+  id         String              @id @default(uuid())
+  studentId  String              @map("student_id")
+  questionId String              @map("question_id")
+  mentorId   String?             @map("mentor_id")
+  status     MentorRequestStatus @default(PENDING)
+  message    String?             // student's help message
+  response   String?             // mentor's reply
+  createdAt  DateTime            @default(now()) @map("created_at")
+  updatedAt  DateTime            @updatedAt @map("updated_at")
+
+  // Relations
+  student  User     @relation("StudentRequests", fields: [studentId], references: [id], onDelete: Cascade)
+  mentor   User?    @relation("MentorRequests", fields: [mentorId], references: [id])
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("mentor_requests")
+}
+
+model SyncLog {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  payload  Json
+  syncedAt DateTime @default(now()) @map("synced_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sync_logs")
+}
