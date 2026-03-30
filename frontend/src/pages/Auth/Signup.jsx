@@ -43,12 +43,13 @@ const Signup = () => {
       }
 
       const res = await signup(payload);
-      loginUser(res.data.token, res.data.user);
+      loginUser(res.token, res.user);
       
-      const role = res.data.user.role;
+      const role = res.user.role;
       if (role === 'STUDENT') navigate('/student/dashboard');
       else if (role === 'MENTOR') navigate('/mentor/dashboard');
       else if (role === 'ADMIN') navigate('/admin/ngo');
+      else navigate('/login');
       
     } catch (err) {
       if (err.response?.data?.errors) {

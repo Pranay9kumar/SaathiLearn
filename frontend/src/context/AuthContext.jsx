@@ -4,16 +4,22 @@ import { getMe } from '../api/auth';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const storedToken = localStorage.getItem('saathilearn_token');
+  const initialToken = storedToken && storedToken !== 'undefined' && storedToken !== 'null' ? storedToken : null;
+  if (!initialToken && storedToken) {
+    localStorage.removeItem('saathilearn_token');
+  }
+
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('saathilearn_token') || null);
+  const [token, setToken] = useState(initialToken);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initAuth = async () => {
       if (token) {
         try {
-          const res = await getMe();
-          setUser(res.data);
+          const profile = await getMe();
+          setUser(profile);
         } catch (err) {
           console.error("Failed to fetch user:", err);
           logout();

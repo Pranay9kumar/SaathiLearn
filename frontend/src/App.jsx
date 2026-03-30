@@ -11,15 +11,46 @@ import StudentDashboard from './pages/Student/Dashboard';
 import MentorDashboard from './pages/Mentor/Dashboard';
 import NGODashboard from './pages/Admin/NGODashboard';
 
+const getDashboardPathByRole = (role) => {
+  switch (role) {
+    case 'STUDENT':
+      return '/student/dashboard';
+    case 'MENTOR':
+      return '/mentor/dashboard';
+    case 'ADMIN':
+      return '/admin/ngo';
+    default:
+      return '/login';
+  }
+};
+
+const FullPageLoader = () => (
+  <div className="flex-center" style={{ height: '100vh' }}>
+    <div className="spinner"></div>
+  </div>
+);
+
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useContext(AuthContext);
 
-  if (loading) return <div className="flex-center" style={{ height: '100vh' }}><div className="spinner"></div></div>;
+  if (loading) return <FullPageLoader />;
 
   if (!user) return <Navigate to="/login" replace />;
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/" replace />; // Redirect if not authorized
+    return <Navigate to={getDashboardPathByRole(user.role)} replace />;
+  }
+
+  return children;
+};
+
+const PublicOnlyRoute = ({ children }) => {
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) return <FullPageLoader />;
+
+  if (user) {
+    return <Navigate to={getDashboardPathByRole(user.role)} replace />;
   }
 
   return children;
@@ -35,13 +66,18 @@ const DashboardLayout = ({ children }) => (
 );
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <FullPageLoader />;
+  }
 
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-      <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
+      <Route path="/" element={<Navigate to={user ? getDashboardPathByRole(user.role) : '/login'} replace />} />
+      <Route path="/landing" element={<Landing />} />
+      <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
+      <Route path="/signup" element={<PublicOnlyRoute><Signup /></PublicOnlyRoute>} />
 
       {/* Student Routes */}
       <Route path="/student/dashboard" element={

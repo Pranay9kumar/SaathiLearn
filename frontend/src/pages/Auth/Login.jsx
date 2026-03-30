@@ -23,14 +23,14 @@ const Login = () => {
 
     try {
       const res = await login({ email, password });
-      loginUser(res.data.token, res.data.user);
+      loginUser(res.token, res.user);
       
       // Route based on role
-      const role = res.data.user.role;
+      const role = res.user.role;
       if (role === 'STUDENT') navigate('/student/dashboard');
       else if (role === 'MENTOR') navigate('/mentor/dashboard');
       else if (role === 'ADMIN') navigate('/admin/ngo');
-      else navigate('/');
+      else navigate('/login');
       
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
