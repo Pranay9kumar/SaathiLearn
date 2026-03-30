@@ -5,31 +5,31 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
-    "migrate": "npx prisma migrate dev",
-    "migrate:prod": "npx prisma migrate deploy",
-    "seed": "npx prisma db seed",
-    "studio": "npx prisma studio"
+    "start": "node src/index.js"
   },
-  "prisma": {
-    "seed": "node prisma/seed.js"
-  },
-  "keywords": ["education", "learning", "backend", "api"],
+  "keywords": [
+    "education",
+    "learning",
+    "backend",
+    "api"
+  ],
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.5.0",
     "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
     "express-validator": "^7.2.1",
     "helmet": "^8.0.0",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.3.3",
     "morgan": "^1.10.0",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9",
-    "prisma": "^6.5.0"
-  }
+    "nodemon": "^3.1.9"
+  },
+  "author": "",
+  "type": "commonjs"
 }

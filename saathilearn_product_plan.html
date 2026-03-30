@@ -1,0 +1,733 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
+  :root {
+    --brand: #1A6B4A;
+    --brand-light: #E6F4EE;
+    --accent: #F4A024;
+    --accent-light: #FEF3DC;
+    --purple: #6B4EDB;
+    --purple-light: #EDE9FB;
+    --coral: #E85D3A;
+    --coral-light: #FDEDE8;
+    --sky: #2B8BC9;
+    --sky-light: #E5F2FB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', var(--font-sans), sans-serif; color: var(--color-text-primary); }
+  .page { max-width: 900px; margin: 0 auto; padding: 0 0 60px; }
+
+  /* Hero */
+  .hero { padding: 40px 0 32px; border-bottom: 1px solid var(--color-border-tertiary); margin-bottom: 32px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--brand-light); color: var(--brand); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; margin-bottom: 14px; }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+  .hero h1 { font-family: 'Sora', var(--font-sans), sans-serif; font-size: 32px; font-weight: 600; line-height: 1.2; margin-bottom: 10px; }
+  .hero h1 span { color: var(--brand); }
+  .hero p { font-size: 15px; color: var(--color-text-secondary); max-width: 600px; line-height: 1.7; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .toc-pill { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); cursor: pointer; transition: all .15s; }
+  .toc-pill:hover { background: var(--color-background-secondary); }
+
+  /* Sections */
+  .section { margin-bottom: 44px; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .section-num { font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 600; color: var(--color-text-tertiary); min-width: 24px; }
+  .section-title { font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 600; }
+  .section-line { flex: 1; height: 0.5px; background: var(--color-border-tertiary); }
+
+  /* Cards grid */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .card { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 18px; }
+  .card-icon { font-size: 22px; margin-bottom: 10px; }
+  .card h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.55; }
+
+  /* Feature list */
+  .feature-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
+  .feature-block h3 { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .tag-green { background: var(--brand-light); color: var(--brand); }
+  .tag-amber { background: var(--accent-light); color: #9A6200; }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-sky { background: var(--sky-light); color: var(--sky); }
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .feature-list li { font-size: 13px; color: var(--color-text-secondary); padding-left: 18px; position: relative; line-height: 1.5; }
+  .feature-list li::before { content: ''; position: absolute; left: 4px; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--color-border-secondary); }
+
+  /* Two-col */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* System arch */
+  .arch-layer { border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 14px; }
+  .arch-layer-label { font-size: 11px; font-weight: 500; min-width: 90px; padding-top: 2px; }
+  .arch-boxes { display: flex; flex-wrap: wrap; gap: 8px; }
+  .arch-box { font-size: 12px; padding: 5px 10px; border-radius: 6px; border: 0.5px solid var(--color-border-secondary); }
+
+  /* User flow steps */
+  .flow-steps { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 0.5px dashed var(--color-border-tertiary); }
+  .flow-step:last-child { border-bottom: none; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .step-content h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+
+  /* DB Schema */
+  .schema-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 14px; }
+  .schema-table th { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-align: left; padding: 6px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .schema-table td { padding: 7px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); }
+  .schema-table td:first-child { color: var(--color-text-primary); font-weight: 500; }
+  .schema-table td.pk { color: var(--accent); }
+  .schema-table td.fk { color: var(--sky); }
+  .schema-name { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--brand); margin-bottom: 8px; }
+
+  /* API */
+  .api-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+  .method { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px; min-width: 42px; text-align: center; }
+  .get { background: #E5F2FB; color: #1566A0; }
+  .post { background: #E6F4EE; color: #1A6B4A; }
+  .put { background: var(--accent-light); color: #9A6200; }
+  .delete { background: #FDEDE8; color: #B83518; }
+  .endpoint { font-family: monospace; color: var(--color-text-primary); font-size: 12px; }
+  .ep-desc { color: var(--color-text-secondary); font-size: 12px; margin-top: 2px; }
+
+  /* Gamification */
+  .badge-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .badge-card { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 12px; padding: 16px 12px; text-align: center; }
+  .badge-icon { font-size: 28px; margin-bottom: 8px; }
+  .badge-card h5 { font-size: 12px; font-weight: 500; margin-bottom: 4px; }
+  .badge-card p { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; }
+
+  /* Roadmap */
+  .roadmap-phase { border-left: 2px solid var(--color-border-tertiary); padding-left: 20px; margin-bottom: 28px; position: relative; }
+  .roadmap-phase::before { content: ''; position: absolute; left: -7px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--color-background-primary); }
+  .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .phase-tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .phase-title { font-size: 15px; font-weight: 500; }
+  .task-list { display: flex; flex-direction: column; gap: 7px; }
+  .task-item { font-size: 13px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 8px; }
+  .task-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Divider */
+  hr.soft { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 28px 0; }
+</style>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge"><span class="dot"></span> Complete Product Architecture Plan</div>
+    <h1>SaathiLearn — <span>NGO Learning Platform</span></h1>
+    <p>A full end-to-end product blueprint covering problem statement, features, system design, database schema, APIs, gamification, and development roadmap for real implementation.</p>
+    <div class="toc">
+      <div class="toc-pill">Problem Statement</div>
+      <div class="toc-pill">Target Users</div>
+      <div class="toc-pill">Features</div>
+      <div class="toc-pill">System Design</div>
+      <div class="toc-pill">User Flow</div>
+      <div class="toc-pill">DB Schema</div>
+      <div class="toc-pill">APIs</div>
+      <div class="toc-pill">Gamification</div>
+      <div class="toc-pill">UI/UX</div>
+      <div class="toc-pill">Roadmap</div>
+    </div>
+  </div>
+
+  <!-- 1. PROBLEM STATEMENT -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Problem Statement</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h4>Core Problem</h4>
+        <p>Millions of NGO-supported students in India lack structured, trackable, and personalized digital learning — despite having low-cost smartphones.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧑‍🏫</div>
+        <h4>Mentor Gap</h4>
+        <p>NGO volunteers and mentors have no unified tool to assign content, monitor progress, or give feedback across multiple students.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h4>No Accountability</h4>
+        <p>NGOs can't generate reports on learning outcomes, attendance trends, or skill gaps to prove program impact to donors.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔋</div>
+        <h4>Engagement Problem</h4>
+        <p>Existing solutions (PDFs, WhatsApp groups) lack motivation loops — students drop off without streaks, rewards, or peer connection.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. TARGET USERS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Target Users</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="two-col">
+      <div class="feature-block">
+        <h3>Students <span class="tag tag-green">Primary</span></h3>
+        <ul class="feature-list">
+          <li>Age 10–22, Tier 2/3 cities & rural areas</li>
+          <li>Classes 5–12 + vocational learners</li>
+          <li>Low-bandwidth, Android-first users</li>
+          <li>Hindi, Telugu, Marathi + regional languages</li>
+          <li>Limited screen time (1–2 hrs/day)</li>
+          <li>High peer influence — social learning matters</li>
+        </ul>
+      </div>
+      <div class="feature-block">
+        <h3>Mentors / Volunteers <span class="tag tag-amber">Secondary</span></h3>
+        <ul class="feature-list">
+          <li>NGO field workers & graduate volunteers</li>
+          <li>Part-time commitment (2–4 hrs/week)</li>
+          <li>Non-technical, mobile-first workflow</li>
+          <li>Manage 10–50 students at a time</li>
+          <li>Need quick insight, not complex dashboards</li>
+          <li>Bilingual interface critical</li>
+        </ul>
+      </div>
+    </div>
+    <div class="feature-block" style="margin-top: 0;">
+      <h3>NGO Admins <span class="tag tag-purple">Tertiary</span></h3>
+      <ul class="feature-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px;">
+        <li>Program managers overseeing multiple cohorts</li>
+        <li>Donor reporting — impact metrics, certificates</li>
+        <li>Content curators (upload syllabi, resources)</li>
+        <li>User management — batch enroll, assign mentors</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. FEATURES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Features</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="feature-block">
+          <h3>Student Dashboard <span class="tag tag-green">Student</span></h3>
+          <ul class="feature-list">
+            <li>Personalized daily learning path</li>
+            <li>Video lessons + short quizzes per topic</li>
+            <li>Streak tracker & XP points display</li>
+            <li>Assignments inbox from mentor</li>
+            <li>Progress bar per subject/chapter</li>
+            <li>Peer leaderboard (class-wide)</li>
+            <li>Badges & reward shelf</li>
+            <li>Doubt submission (text/voice)</li>
+            <li>Offline mode — download lessons</li>
+            <li>Language toggle (Hindi/English)</li>
+            <li>Parent view link (read-only)</li>
+            <li>Certificate download on completion</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="feature-block">
+          <h3>Mentor Dashboard <span class="tag tag-amber">Mentor</span></h3>
+          <ul class="feature-list">
+            <li>Student roster with health-color status</li>
+            <li>Assign lessons, quizzes, homework</li>
+            <li>Live attendance marking</li>
+            <li>Doubt inbox with reply interface</li>
+            <li>Progress report per student</li>
+            <li>Cohort analytics — avg score, drop-off</li>
+            <li>Bulk message students via app</li>
+            <li>Flag at-risk learners automatically</li>
+            <li>Schedule live sessions (Zoom/Meet link)</li>
+            <li>Upload custom content (PDF, video)</li>
+            <li>Session notes & feedback logging</li>
+            <li>Monthly export for NGO admin</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="feature-block">
+      <h3>NGO Admin Panel <span class="tag tag-purple">Admin</span></h3>
+      <ul class="feature-list" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px 20px;">
+        <li>Multi-cohort overview dashboard</li>
+        <li>Mentor assignment & management</li>
+        <li>Curriculum library management</li>
+        <li>Student bulk import via CSV</li>
+        <li>Impact report PDF export</li>
+        <li>Role-based access controls</li>
+        <li>Notification broadcasts</li>
+        <li>Donor-facing public dashboard</li>
+        <li>WhatsApp bot integration</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4. SYSTEM DESIGN -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">System Design</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="arch-layer" style="background: var(--brand-light); border-color: #A8D8C0;">
+      <span class="arch-layer-label" style="color: var(--brand);">Frontend</span>
+      <div class="arch-boxes">
+        <span class="arch-box" style="background: var(--brand-light); border-color: #A8D8C0; color: var(--brand);">React Native (iOS + Android)</span>
+        <span class="arch-box" style="background: var(--brand-light); border-color: #A8D8C0; color: var(--brand);">Next.js Web App (Admin)</span>
+        <span class="arch-box" style="background: var(--brand-light); border-color: #A8D8C0; color: var(--brand);">Tailwind CSS</span>
+        <span class="arch-box" style="background: var(--brand-light); border-color: #A8D8C0; color: var(--brand);">i18next (Multilingual)</span>
+        <span class="arch-box" style="background: var(--brand-light); border-color: #A8D8C0; color: var(--brand);">Redux Toolkit (State)</span>
+        <span class="arch-box" style="background: var(--brand-light); border-color: #A8D8C0; color: var(--brand);">Offline-first (SQLite)</span>
+      </div>
+    </div>
+
+    <div class="arch-layer" style="background: var(--sky-light); border-color: #A0CCE8;">
+      <span class="arch-layer-label" style="color: var(--sky);">API Gateway</span>
+      <div class="arch-boxes">
+        <span class="arch-box" style="background: var(--sky-light); border-color: #A0CCE8; color: var(--sky);">Kong / AWS API Gateway</span>
+        <span class="arch-box" style="background: var(--sky-light); border-color: #A0CCE8; color: var(--sky);">JWT Auth + Refresh Tokens</span>
+        <span class="arch-box" style="background: var(--sky-light); border-color: #A0CCE8; color: var(--sky);">Rate Limiting</span>
+        <span class="arch-box" style="background: var(--sky-light); border-color: #A0CCE8; color: var(--sky);">HTTPS / TLS</span>
+      </div>
+    </div>
+
+    <div class="arch-layer" style="background: var(--purple-light); border-color: #C4B8F4;">
+      <span class="arch-layer-label" style="color: var(--purple);">Backend</span>
+      <div class="arch-boxes">
+        <span class="arch-box" style="background: var(--purple-light); border-color: #C4B8F4; color: var(--purple);">Node.js + Express (REST)</span>
+        <span class="arch-box" style="background: var(--purple-light); border-color: #C4B8F4; color: var(--purple);">Socket.io (Real-time Doubts)</span>
+        <span class="arch-box" style="background: var(--purple-light); border-color: #C4B8F4; color: var(--purple);">BullMQ (Job Queue)</span>
+        <span class="arch-box" style="background: var(--purple-light); border-color: #C4B8F4; color: var(--purple);">Firebase Cloud Messaging</span>
+        <span class="arch-box" style="background: var(--purple-light); border-color: #C4B8F4; color: var(--purple);">Node-cron (Streaks/Reports)</span>
+      </div>
+    </div>
+
+    <div class="arch-layer" style="background: var(--accent-light); border-color: #F8D99A;">
+      <span class="arch-layer-label" style="color: #9A6200;">Data Layer</span>
+      <div class="arch-boxes">
+        <span class="arch-box" style="background: var(--accent-light); border-color: #F8D99A; color: #9A6200;">PostgreSQL (Primary DB)</span>
+        <span class="arch-box" style="background: var(--accent-light); border-color: #F8D99A; color: #9A6200;">Redis (Cache + Sessions)</span>
+        <span class="arch-box" style="background: var(--accent-light); border-color: #F8D99A; color: #9A6200;">AWS S3 (Media Storage)</span>
+        <span class="arch-box" style="background: var(--accent-light); border-color: #F8D99A; color: #9A6200;">Elasticsearch (Content Search)</span>
+        <span class="arch-box" style="background: var(--accent-light); border-color: #F8D99A; color: #9A6200;">TimescaleDB (Analytics)</span>
+      </div>
+    </div>
+
+    <div class="arch-layer" style="background: var(--coral-light); border-color: #F4C0B0;">
+      <span class="arch-layer-label" style="color: var(--coral);">Infrastructure</span>
+      <div class="arch-boxes">
+        <span class="arch-box" style="background: var(--coral-light); border-color: #F4C0B0; color: var(--coral);">AWS EC2 / ECS (Containers)</span>
+        <span class="arch-box" style="background: var(--coral-light); border-color: #F4C0B0; color: var(--coral);">CloudFront CDN</span>
+        <span class="arch-box" style="background: var(--coral-light); border-color: #F4C0B0; color: var(--coral);">GitHub Actions CI/CD</span>
+        <span class="arch-box" style="background: var(--coral-light); border-color: #F4C0B0; color: var(--coral);">Sentry (Error Monitoring)</span>
+        <span class="arch-box" style="background: var(--coral-light); border-color: #F4C0B0; color: var(--coral);">Datadog / Grafana</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. USER FLOW -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">User Flow</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="two-col">
+      <div>
+        <p style="font-size: 12px; font-weight: 500; color: var(--brand); margin-bottom: 12px; text-transform: uppercase; letter-spacing: .04em;">Student Journey</p>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--brand-light); color: var(--brand);">1</div>
+            <div class="step-content"><h4>Download & Register</h4><p>NGO shares a unique invite code. Student signs up with phone number + OTP. Profile created with grade, language, subject preferences.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--brand-light); color: var(--brand);">2</div>
+            <div class="step-content"><h4>Onboarding Quiz</h4><p>5-minute baseline assessment to auto-detect current level and generate a personalized learning path.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--brand-light); color: var(--brand);">3</div>
+            <div class="step-content"><h4>Daily Learning Loop</h4><p>App shows "Today's Plan" — 2–3 micro-lessons (5 min each). Lesson → mini-quiz → XP earned.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--brand-light); color: var(--brand);">4</div>
+            <div class="step-content"><h4>Submit Assignments</h4><p>View mentor-assigned tasks, submit answers (text/photo/voice), receive feedback inline.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--brand-light); color: var(--brand);">5</div>
+            <div class="step-content"><h4>Ask Doubts</h4><p>Tap "Ask Doubt" → text or voice message → routed to mentor inbox. Real-time reply notification.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--brand-light); color: var(--brand);">6</div>
+            <div class="step-content"><h4>Earn & Complete</h4><p>Complete module → unlock badge → chapter certificate → visible on profile and shareable with family.</p></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size: 12px; font-weight: 500; color: #9A6200; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .04em;">Mentor Journey</p>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--accent-light); color: #9A6200;">1</div>
+            <div class="step-content"><h4>Admin Onboards Mentor</h4><p>NGO admin creates mentor account, assigns cohort (students group). Mentor gets login link via SMS.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--accent-light); color: #9A6200;">2</div>
+            <div class="step-content"><h4>View Student Roster</h4><p>Dashboard shows all students with color-coded activity status: green (active), yellow (2+ days idle), red (at-risk).</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--accent-light); color: #9A6200;">3</div>
+            <div class="step-content"><h4>Assign Content</h4><p>Select students → pick lesson/quiz from library → assign with due date. Students get push notification.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--accent-light); color: #9A6200;">4</div>
+            <div class="step-content"><h4>Answer Doubts</h4><p>Doubt inbox shows unread messages. Reply inline with text, or record a short voice note. Mark as resolved.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--accent-light); color: #9A6200;">5</div>
+            <div class="step-content"><h4>Track Progress</h4><p>Weekly auto-generated cohort report. Drill into individual student timelines, quiz scores, and streak data.</p></div>
+          </div>
+          <div class="flow-step">
+            <div class="step-num" style="background: var(--accent-light); color: #9A6200;">6</div>
+            <div class="step-content"><h4>Export & Report</h4><p>Generate PDF impact report for NGO admin. Highlights completion rates, top students, avg improvement scores.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. DATABASE SCHEMA -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Database Schema</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="feature-block">
+          <div class="schema-name">users</div>
+          <table class="schema-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="pk">id</td><td>UUID</td><td>Primary key</td></tr>
+              <tr><td>phone</td><td>VARCHAR</td><td>Unique, OTP login</td></tr>
+              <tr><td>name</td><td>VARCHAR</td><td></td></tr>
+              <tr><td>role</td><td>ENUM</td><td>student/mentor/admin</td></tr>
+              <tr><td>ngo_id</td><td>UUID FK</td><td>→ ngos table</td></tr>
+              <tr><td>language</td><td>VARCHAR</td><td>hi/en/te/mr</td></tr>
+              <tr><td>created_at</td><td>TIMESTAMP</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="feature-block">
+          <div class="schema-name">lessons</div>
+          <table class="schema-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="pk">id</td><td>UUID</td><td></td></tr>
+              <tr><td>title</td><td>VARCHAR</td><td></td></tr>
+              <tr><td>subject</td><td>VARCHAR</td><td>Math, Science…</td></tr>
+              <tr><td>grade</td><td>INT</td><td>5–12</td></tr>
+              <tr><td>content_url</td><td>TEXT</td><td>S3 path</td></tr>
+              <tr><td>type</td><td>ENUM</td><td>video/pdf/quiz</td></tr>
+              <tr><td>duration_min</td><td>INT</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="feature-block">
+          <div class="schema-name">assignments</div>
+          <table class="schema-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="pk">id</td><td>UUID</td><td></td></tr>
+              <tr><td class="fk">mentor_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td class="fk">student_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td class="fk">lesson_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td>due_date</td><td>DATE</td><td></td></tr>
+              <tr><td>status</td><td>ENUM</td><td>pending/done/late</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="feature-block">
+          <div class="schema-name">progress</div>
+          <table class="schema-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="pk">id</td><td>UUID</td><td></td></tr>
+              <tr><td class="fk">student_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td class="fk">lesson_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td>score</td><td>INT</td><td>0–100</td></tr>
+              <tr><td>xp_earned</td><td>INT</td><td></td></tr>
+              <tr><td>completed_at</td><td>TIMESTAMP</td><td></td></tr>
+              <tr><td>time_spent_sec</td><td>INT</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="feature-block">
+          <div class="schema-name">gamification</div>
+          <table class="schema-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="pk">id</td><td>UUID</td><td></td></tr>
+              <tr><td class="fk">student_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td>total_xp</td><td>INT</td><td>Cumulative</td></tr>
+              <tr><td>streak_days</td><td>INT</td><td>Current streak</td></tr>
+              <tr><td>longest_streak</td><td>INT</td><td></td></tr>
+              <tr><td>badges</td><td>JSONB</td><td>Array of badge IDs</td></tr>
+              <tr><td>level</td><td>INT</td><td>1–50 computed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="feature-block">
+          <div class="schema-name">doubts</div>
+          <table class="schema-table">
+            <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="pk">id</td><td>UUID</td><td></td></tr>
+              <tr><td class="fk">student_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td class="fk">mentor_id</td><td>UUID FK</td><td></td></tr>
+              <tr><td>message</td><td>TEXT</td><td></td></tr>
+              <tr><td>media_url</td><td>TEXT</td><td>Voice note S3</td></tr>
+              <tr><td>status</td><td>ENUM</td><td>open/resolved</td></tr>
+              <tr><td>reply</td><td>TEXT</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. API STRUCTURE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">API Structure</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="two-col">
+      <div class="feature-block">
+        <h3>Auth APIs</h3>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/auth/send-otp</div><div class="ep-desc">Send OTP to phone number</div></div></div>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/auth/verify-otp</div><div class="ep-desc">Verify OTP, return JWT + refresh token</div></div></div>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/auth/refresh</div><div class="ep-desc">Refresh access token</div></div></div>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/auth/logout</div><div class="ep-desc">Invalidate session</div></div></div>
+      </div>
+      <div class="feature-block">
+        <h3>Lesson APIs</h3>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/lessons?grade=8&subject=math</div><div class="ep-desc">Filtered lesson catalog</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/lessons/:id</div><div class="ep-desc">Single lesson with content URL</div></div></div>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/lessons</div><div class="ep-desc">Create lesson (mentor/admin only)</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/lessons/today/:studentId</div><div class="ep-desc">Today's personalized plan</div></div></div>
+      </div>
+      <div class="feature-block">
+        <h3>Progress & Gamification</h3>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/progress/complete</div><div class="ep-desc">Mark lesson done, award XP</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/progress/:studentId</div><div class="ep-desc">Full progress timeline</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/gamification/:studentId</div><div class="ep-desc">XP, streak, badges, level</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/leaderboard/:cohortId</div><div class="ep-desc">Ranked list by XP this week</div></div></div>
+      </div>
+      <div class="feature-block">
+        <h3>Mentor & Admin APIs</h3>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/assignments</div><div class="ep-desc">Assign lesson to student(s)</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/cohort/:id/summary</div><div class="ep-desc">Cohort analytics snapshot</div></div></div>
+        <div class="api-row"><span class="method post">POST</span><div><div class="endpoint">/doubts/:id/reply</div><div class="ep-desc">Mentor replies to doubt</div></div></div>
+        <div class="api-row"><span class="method get">GET</span><div><div class="endpoint">/reports/:cohortId/pdf</div><div class="ep-desc">Generate impact PDF report</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. GAMIFICATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Gamification Strategy</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="card-grid" style="margin-bottom: 16px;">
+      <div class="card" style="border-color: #A8D8C0; background: var(--brand-light);">
+        <h4 style="color: var(--brand);">XP Points System</h4>
+        <p>Complete lesson = +20 XP. Quiz 100% = +50 XP. Daily streak bonus = +10 XP/day. Level up every 500 XP (50 levels total).</p>
+      </div>
+      <div class="card" style="border-color: #F8D99A; background: var(--accent-light);">
+        <h4 style="color: #9A6200;">Streak Fire</h4>
+        <p>Daily learning streak with fire icons. Breaks after 24 hr gap. Streak shields (earned) can protect 1 miss. Longest streak shown on profile.</p>
+      </div>
+      <div class="card" style="border-color: #C4B8F4; background: var(--purple-light);">
+        <h4 style="color: var(--purple);">Cohort Leaderboard</h4>
+        <p>Weekly XP ranking within class. Top 3 get "Champion" badge. Resets every Monday to keep it competitive for all levels.</p>
+      </div>
+      <div class="card" style="border-color: #A0CCE8; background: var(--sky-light);">
+        <h4 style="color: var(--sky);">Skill Trees</h4>
+        <p>Visual subject trees (Math, Science, English). Unlock next node by completing prior. Visual branching path keeps curiosity alive.</p>
+      </div>
+    </div>
+    <div class="badge-grid">
+      <div class="badge-card"><div class="badge-icon">🔥</div><h5>7-Day Warrior</h5><p>7-day learning streak</p></div>
+      <div class="badge-card"><div class="badge-icon">🏆</div><h5>Quiz Master</h5><p>5 perfect quiz scores</p></div>
+      <div class="badge-card"><div class="badge-icon">⭐</div><h5>Rising Star</h5><p>Complete first module</p></div>
+      <div class="badge-card"><div class="badge-icon">🤝</div><h5>Helper</h5><p>Peer answered 3 doubts</p></div>
+      <div class="badge-card"><div class="badge-icon">📚</div><h5>Scholar</h5><p>50 lessons completed</p></div>
+      <div class="badge-card"><div class="badge-icon">🌟</div><h5>Saathi Star</h5><p>Ranked #1 in cohort</p></div>
+      <div class="badge-card"><div class="badge-icon">🎯</div><h5>On Target</h5><p>No late assignments (1 month)</p></div>
+      <div class="badge-card"><div class="badge-icon">🦁</div><h5>Fearless</h5><p>30-day streak achieved</p></div>
+    </div>
+  </div>
+
+  <!-- 9. UI/UX IDEAS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">UI/UX Design Ideas</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h4>Visual Identity</h4>
+        <p>Deep forest green (#1A6B4A) as primary — trustworthy, growth-oriented. Warm saffron (#F4A024) as energy accent. Illustrated mascot "Saathi" — a friendly owl as companion guide.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h4>Mobile-First Cards</h4>
+        <p>Swipeable lesson cards (Tinder-style swiping for quick daily lessons). Large tap targets (48px+). Bottom navigation bar. Thumb-reachable CTAs.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌈</div>
+        <h4>Progress Visualization</h4>
+        <p>Circular ring progress per subject. Branching skill tree map with unlocked vs locked nodes. Animated XP bar fill on lesson completion.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔔</div>
+        <h4>Smart Nudges</h4>
+        <p>Daily reminder at student's preferred time. "Streak at risk!" alert if no lesson by evening. Celebratory confetti animation on badge unlock.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h4>Accessibility</h4>
+        <p>Full Hindi + regional language UI. Low-data mode (text-only view). High-contrast mode. Voice-over support for visually impaired students.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎥</div>
+        <h4>Content UX</h4>
+        <p>Auto-play next lesson. Lessons under 7 minutes. Inline quizzes mid-video. Tap-to-pause. Download indicator for offline access. Resume from last position.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">👩‍🏫</div>
+        <h4>Mentor UX</h4>
+        <p>One-tap assignment from library. Color-coded student health cards. Quick stats front-and-center (not buried in menus). Voice-reply to doubts.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h4>Home Screen</h4>
+        <p>Greeting with name + streak. "Today's 3 Tasks" card at top. Recent activity feed. Floating leaderboard widget. One-tap to resume last lesson.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. ROADMAP -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Development Roadmap</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="roadmap-phase" style="border-left-color: var(--brand);">
+      <div style="position:absolute; left:-7px; top:4px; width:12px; height:12px; border-radius:50%; background: var(--brand);"></div>
+      <div class="phase-header">
+        <span class="phase-tag" style="background: var(--brand-light); color: var(--brand);">Month 1–2</span>
+        <span class="phase-title">Phase 1 — Foundation</span>
+      </div>
+      <div class="task-list">
+        <div class="task-item" style="--dot-color: var(--brand)"><span style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;display:inline-block;"></span>Project setup: monorepo, CI/CD pipeline, staging + prod environments</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;display:inline-block;"></span>Auth service: phone OTP login, JWT, role-based access (student/mentor/admin)</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;display:inline-block;"></span>PostgreSQL schema setup + migrations for core tables</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;display:inline-block;"></span>Basic React Native app shell with navigation, theming, and i18n</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;display:inline-block;"></span>Student registration + onboarding quiz flow</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;display:inline-block;"></span>Deliverable: Working auth + student registration (internal alpha)</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" style="border-left-color: var(--sky);">
+      <div style="position:absolute; left:-7px; top:4px; width:12px; height:12px; border-radius:50%; background: var(--sky);"></div>
+      <div class="phase-header">
+        <span class="phase-tag" style="background: var(--sky-light); color: var(--sky);">Month 3–4</span>
+        <span class="phase-title">Phase 2 — Core Learning</span>
+      </div>
+      <div class="task-list">
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;display:inline-block;"></span>Lesson catalog APIs + content upload pipeline (S3 + CloudFront CDN)</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;display:inline-block;"></span>Video player with offline download + resume position</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;display:inline-block;"></span>Quiz engine — MCQ + short answer + auto-grading</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;display:inline-block;"></span>Progress tracking + XP system + streak engine (daily cron job)</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;display:inline-block;"></span>Push notifications via Firebase Cloud Messaging</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;display:inline-block;"></span>Deliverable: Students can learn + earn XP (beta with 1 NGO)</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" style="border-left-color: var(--accent);">
+      <div style="position:absolute; left:-7px; top:4px; width:12px; height:12px; border-radius:50%; background: var(--accent);"></div>
+      <div class="phase-header">
+        <span class="phase-tag" style="background: var(--accent-light); color: #9A6200;">Month 5–6</span>
+        <span class="phase-title">Phase 3 — Mentor & Gamification</span>
+      </div>
+      <div class="task-list">
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>Mentor web dashboard (Next.js) — student roster, assignment tool, doubt inbox</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>Real-time doubt messaging (Socket.io) + voice note support</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>Badges engine — define rules, auto-trigger on milestone events</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>Leaderboard API + weekly cohort ranking reset</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>Skill tree visual with lock/unlock states per subject</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>Deliverable: Full mentor–student interaction loop live</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" style="border-left-color: var(--purple);">
+      <div style="position:absolute; left:-7px; top:4px; width:12px; height:12px; border-radius:50%; background: var(--purple);"></div>
+      <div class="phase-header">
+        <span class="phase-tag" style="background: var(--purple-light); color: var(--purple);">Month 7–8</span>
+        <span class="phase-title">Phase 4 — Admin & Analytics</span>
+      </div>
+      <div class="task-list">
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;display:inline-block;"></span>NGO Admin panel — multi-cohort view, bulk enrollment, content management</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;display:inline-block;"></span>TimescaleDB analytics pipeline for learning time-series data</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;display:inline-block;"></span>PDF impact report generation (donor-facing)</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;display:inline-block;"></span>Certificate generation on module completion</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;display:inline-block;"></span>Elasticsearch for content search</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--purple);flex-shrink:0;display:inline-block;"></span>Deliverable: NGO admin can run entire program from one panel</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase" style="border-left-color: var(--coral);">
+      <div style="position:absolute; left:-7px; top:4px; width:12px; height:12px; border-radius:50%; background: var(--coral);"></div>
+      <div class="phase-header">
+        <span class="phase-tag" style="background: var(--coral-light); color: var(--coral);">Month 9–12</span>
+        <span class="phase-title">Phase 5 — Scale & Polish</span>
+      </div>
+      <div class="task-list">
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0;display:inline-block;"></span>WhatsApp bot integration for study reminders + quick quiz</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0;display:inline-block;"></span>AI-based lesson recommendation engine (basic collaborative filtering)</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0;display:inline-block;"></span>Peer learning groups — students can discuss lessons in cohort chats</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0;display:inline-block;"></span>Parent view — read-only progress link via WhatsApp share</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0;display:inline-block;"></span>Performance tuning, security audit, load testing (5000+ concurrent users)</div>
+        <div class="task-item"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);flex-shrink:0;display:inline-block;"></span>Deliverable: Production-ready v1.0 — onboard 5 NGOs, 2000+ students</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY METRICS -->
+  <div style="background: var(--brand-light); border: 0.5px solid #A8D8C0; border-radius: 16px; padding: 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; text-align: center;">
+    <div><div style="font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 600; color: var(--brand);">12mo</div><div style="font-size: 12px; color: #1A6B4A; margin-top: 4px;">Total Timeline</div></div>
+    <div><div style="font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 600; color: var(--brand);">5</div><div style="font-size: 12px; color: #1A6B4A; margin-top: 4px;">Build Phases</div></div>
+    <div><div style="font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 600; color: var(--brand);">3</div><div style="font-size: 12px; color: #1A6B4A; margin-top: 4px;">User Roles</div></div>
+    <div><div style="font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 600; color: var(--brand);">30+</div><div style="font-size: 12px; color: #1A6B4A; margin-top: 4px;">Core APIs</div></div>
+  </div>
+
+</div>

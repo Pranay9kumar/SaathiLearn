@@ -1,18 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
 const ApiError = require('../utils/ApiError');
-
-const prisma = new PrismaClient();
+const User = require('../models/User');
 
 const SALT_ROUNDS = 12;
 
 /**
  * Register a new user
  */
-const signup = async ({ name, email, password, role = 'STUDENT', className, subjects }) => {
+const signup = async ({ name, email, password, role = 'STUDENT', className, subjects, activities }) => {
   // Check if email already exists
-  const existing = await prisma.user.findUnique({ where: { email } });
+  const existing = await User.findOne({ email }).lean();
   if (existing) {
     throw ApiError.conflict('Email already registered.');
   }
@@ -21,39 +19,32 @@ const signup = async ({ name, email, password, role = 'STUDENT', className, subj
   const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
   // Create user
-  const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-      passwordHash,
-      role,
-      class: className ? parseInt(className) : null,
-      subjects: subjects || [],
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      class: true,
-      createdAt: true,
-    },
+  const user = await User.create({
+    name,
+    email,
+    passwordHash,
+    role,
+    class: className ? parseInt(className, 10) : null,
+    subjects: subjects || [],
+    activities: activities || [],
   });
 
-  // Initialize streak and XP if student
-  if (role === 'STUDENT') {
-    await prisma.streak.create({
-      data: { userId: user.id, currentStreak: 0, longestStreak: 0 },
-    });
-    await prisma.xP.create({
-      data: { userId: user.id, totalXp: 0 },
-    });
-  }
-
   // Generate token
-  const token = generateToken(user.id);
+  const token = generateToken(user._id.toString());
 
-  return { user, token };
+  return {
+    user: {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      class: user.class,
+      subjects: user.subjects,
+      activities: user.activities,
+      createdAt: user.createdAt,
+    },
+    token,
+  };
 };
 
 /**
@@ -61,7 +52,7 @@ const signup = async ({ name, email, password, role = 'STUDENT', className, subj
  */
 const login = async ({ email, password }) => {
   // Find user
-  const user = await prisma.user.findUnique({ where: { email } });
+  const user = await User.findOne({ email }).select('+passwordHash');
   if (!user) {
     throw ApiError.unauthorized('Invalid email or password.');
   }
@@ -73,15 +64,18 @@ const login = async ({ email, password }) => {
   }
 
   // Generate token
-  const token = generateToken(user.id);
+  const token = generateToken(user._id.toString());
 
   return {
     user: {
-      id: user.id,
+      id: user._id.toString(),
       name: user.name,
       email: user.email,
       role: user.role,
       class: user.class,
+      subjects: user.subjects,
+      activities: user.activities,
+      createdAt: user.createdAt,
     },
     token,
   };
@@ -91,26 +85,22 @@ const login = async ({ email, password }) => {
  * Get user profile by ID
  */
 const getProfile = async (userId) => {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      class: true,
-      subjects: true,
-      createdAt: true,
-      streak: { select: { currentStreak: true, longestStreak: true, lastActiveDate: true } },
-      xp: { select: { totalXp: true } },
-    },
-  });
+  const user = await User.findById(userId).select('name email role class subjects activities createdAt').lean();
 
   if (!user) {
     throw ApiError.notFound('User not found.');
   }
 
-  return user;
+  return {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    class: user.class,
+    subjects: user.subjects,
+    activities: user.activities,
+    createdAt: user.createdAt,
+  };
 };
 
 /**

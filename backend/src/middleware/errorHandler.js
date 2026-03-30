@@ -9,20 +9,6 @@ const errorHandler = (err, req, res, next) => {
   let message = err.message || 'Internal Server Error';
   let status = err.status || 'error';
 
-  // Prisma known errors
-  if (err.code === 'P2002') {
-    statusCode = 409;
-    status = 'fail';
-    const field = err.meta?.target?.[0] || 'field';
-    message = `A record with this ${field} already exists.`;
-  }
-
-  if (err.code === 'P2025') {
-    statusCode = 404;
-    status = 'fail';
-    message = 'Record not found.';
-  }
-
   // Validation errors from express-validator
   if (err.array && typeof err.array === 'function') {
     statusCode = 400;

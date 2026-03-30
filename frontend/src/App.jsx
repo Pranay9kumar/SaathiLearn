@@ -9,6 +9,12 @@ import Signup from './pages/Auth/Signup';
 import Landing from './pages/Landing';
 import StudentDashboard from './pages/Student/Dashboard';
 import MentorDashboard from './pages/Mentor/Dashboard';
+import MentorStudents from './pages/Mentor/Students';
+import MentorRequests from './pages/Mentor/Requests';
+import MentorAssignments from './pages/Mentor/Assignments';
+import MentorStudentProfile from './pages/Mentor/StudentProfile';
+import MentorAnalytics from './pages/Mentor/Analytics';
+import { Chat as MentorChat, History as MentorHistory, Settings as MentorSettings } from './pages/Mentor/Settings';
 import NGODashboard from './pages/Admin/NGODashboard';
 
 const getDashboardPathByRole = (role) => {
@@ -56,11 +62,16 @@ const PublicOnlyRoute = ({ children }) => {
   return children;
 };
 
+import { Topbar } from './components/Layout/Topbar';
+
 const DashboardLayout = ({ children }) => (
   <div className="app-container">
     <Sidebar />
-    <main className="main-content animate-fade-in">
-      {children}
+    <main className="main-content">
+      <Topbar />
+      <div className="dash-content">
+        {children}
+      </div>
     </main>
   </div>
 );
@@ -99,7 +110,56 @@ function App() {
       <Route path="/mentor/students" element={
         <ProtectedRoute allowedRoles={['MENTOR']}>
           <DashboardLayout>
-            <div>Students view coming soon...</div>
+            <MentorStudents />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/students/:id" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorStudentProfile />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/assignments" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorAssignments />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/requests" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorRequests />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/analytics" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorAnalytics />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/chat" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorChat />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/history" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorHistory />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/mentor/settings" element={
+        <ProtectedRoute allowedRoles={['MENTOR']}>
+          <DashboardLayout>
+            <MentorSettings />
           </DashboardLayout>
         </ProtectedRoute>
       } />

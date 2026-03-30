@@ -1,0 +1,9 @@
+/* 
+  Legacy Students.css 
+  Now fully migrated to Tailwind light theme utility classes 
+*/
+.mentor-students-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}

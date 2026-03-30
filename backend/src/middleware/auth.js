@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const ApiError = require('../utils/ApiError');
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+const User = require('../models/User');
 
 /**
  * Verify JWT token and attach user to request
@@ -21,24 +19,24 @@ const authenticate = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // 3. Check if user still exists
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        class: true,
-        subjects: true,
-      },
-    });
+    const user = await User.findById(decoded.userId)
+      .select('name email role class subjects activities')
+      .lean();
 
     if (!user) {
       throw ApiError.unauthorized('User no longer exists.');
     }
 
     // 4. Attach user to request
-    req.user = user;
+    req.user = {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      class: user.class,
+      subjects: user.subjects,
+      activities: user.activities,
+    };
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

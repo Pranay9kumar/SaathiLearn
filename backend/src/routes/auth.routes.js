@@ -41,6 +41,10 @@ router.post(
       .optional()
       .isArray()
       .withMessage('Subjects must be an array.'),
+    body('activities')
+      .optional()
+      .isArray()
+      .withMessage('Activities must be an array.'),
     validate,
   ],
   authController.signup
