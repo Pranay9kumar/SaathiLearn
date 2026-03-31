@@ -36,6 +36,9 @@ app.get('/ping', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 
+const resourceRoutes = require('./routes/resource.routes');
+app.use('/api/resources', resourceRoutes);
+
 // Error handling
 app.use(errorHandler);
 
