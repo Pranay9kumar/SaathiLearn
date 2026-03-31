@@ -1,8 +1,14 @@
  import React, { useState } from 'react';
+import ProgressTracking from './ProgressTracking';
+import Streak from './Streak';
+import Mentor from './Mentor';
+import AIAssistance from './AIAssistance';
+import GradeRanking from './GradeRanking';
 
 const StudentLearningDashboard = () => {
   const [currentView, setCurrentView] = useState('dashboard');
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [activeSidebar, setActiveSidebar] = useState(null);
 
   const subjects = [
     { name: 'Computer Science', color: '#007bff', progress: 75 },
@@ -71,8 +77,14 @@ const StudentLearningDashboard = () => {
     setCurrentView('profile');
   };
 
+  const handleSidebarClick = (item) => {
+    setActiveSidebar(item);
+    setCurrentView('sidebar');
+  };
+
   const handleBack = () => {
     setCurrentView('dashboard');
+    setActiveSidebar(null);
   };
 
   return (
@@ -115,6 +127,10 @@ const StudentLearningDashboard = () => {
         .sidebar li {
           padding: 10px 0;
           cursor: pointer;
+        }
+        .sidebar li.active {
+          background: var(--sidebar-bg);
+          border-left: 4px solid #007bff;
         }
         .main {
           flex: 1;
@@ -300,12 +316,12 @@ const StudentLearningDashboard = () => {
       <div className="sidebar">
         <h2>Dashboard</h2>
         <ul>
-          <li>Missions</li>
-          <li>Streak</li>
-          <li>Progress</li>
-          <li>Mentor</li>
-          <li>AI Assistance</li>
-          <li>Grade Rankings</li>
+          <li className={activeSidebar === 'Missions' ? 'active' : ''} onClick={() => handleSidebarClick('Missions')}>Missions</li>
+          <li className={activeSidebar === 'Streak' ? 'active' : ''} onClick={() => handleSidebarClick('Streak')}>Streak</li>
+          <li className={activeSidebar === 'Progress' ? 'active' : ''} onClick={() => handleSidebarClick('Progress')}>Progress</li>
+          <li className={activeSidebar === 'Mentor' ? 'active' : ''} onClick={() => handleSidebarClick('Mentor')}>Mentor</li>
+          <li className={activeSidebar === 'AI Assistance' ? 'active' : ''} onClick={() => handleSidebarClick('AI Assistance')}>AI Assistance</li>
+          <li className={activeSidebar === 'Grade Rankings' ? 'active' : ''} onClick={() => handleSidebarClick('Grade Rankings')}>Grade Rankings</li>
         </ul>
       </div>
       <div className="main">
@@ -341,6 +357,14 @@ const StudentLearningDashboard = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className={`view ${currentView === 'sidebar' ? 'active' : ''}`}>
+          <button className="back-btn" onClick={handleBack}>Back</button>
+          {activeSidebar === 'Progress' && <ProgressTracking />}
+          {activeSidebar === 'Streak' && <Streak />}
+          {activeSidebar === 'Mentor' && <Mentor />}
+          {activeSidebar === 'AI Assistance' && <AIAssistance />}
+          {activeSidebar === 'Grade Rankings' && <GradeRanking />}
         </div>
         <div className={`view ${currentView === 'profile' ? 'active' : ''}`}>
           <button className="back-btn" onClick={handleBack}>Back</button>
