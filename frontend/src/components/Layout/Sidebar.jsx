@@ -36,6 +36,48 @@ export const Sidebar = ({ requestCount = 0 }) => {
                 <span>Missions</span>
               </div>
             </NavLink>
+
+            <div className="sidebar-section-label">Progress</div>
+            <NavLink to="/student/progress" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <TrendingUp size={18} className="nav-icon" />
+                <span>Progress</span>
+              </div>
+            </NavLink>
+            <NavLink to="/student/streak" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <BarChart2 size={18} className="nav-icon" />
+                <span>Streak</span>
+              </div>
+            </NavLink>
+            <NavLink to="/student/leaderboard" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <ClipboardList size={18} className="nav-icon" />
+                <span>Leaderboard</span>
+              </div>
+            </NavLink>
+
+            <div className="sidebar-section-label">Support</div>
+            <NavLink to="/student/mentor" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <UserCog size={18} className="nav-icon" />
+                <span>My Mentor</span>
+              </div>
+            </NavLink>
+            <NavLink to="/student/ai-help" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <MessageSquare size={18} className="nav-icon" />
+                <span>AI Help</span>
+              </div>
+            </NavLink>
+
+            <div className="sidebar-section-label">Account</div>
+            <NavLink to="/student/profile" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <Settings size={18} className="nav-icon" />
+                <span>Profile</span>
+              </div>
+            </NavLink>
           </>
         );
 

@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getMe } from '../api/auth';
 
-// ⚠️ DEV ONLY: Set to true to bypass auth and preview as ADMIN
+// ⚠️ DEV ONLY: Set to true to bypass auth and preview
 const DEV_ADMIN_MODE = false;
+const DEV_STUDENT_MODE = false;
 
 export const AuthContext = createContext();
 
@@ -13,12 +14,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('saathilearn_token');
   }
 
-  const [user, setUser] = useState(DEV_ADMIN_MODE ? { name: 'NGO Admin', role: 'ADMIN', email: 'admin@saathi.in' } : null);
-  const [token, setToken] = useState(DEV_ADMIN_MODE ? 'dev-token' : initialToken);
-  const [loading, setLoading] = useState(DEV_ADMIN_MODE ? false : true);
+  const devMode = DEV_ADMIN_MODE || DEV_STUDENT_MODE;
+  const devUser = DEV_ADMIN_MODE ? { name: 'NGO Admin', role: 'ADMIN', email: 'admin@saathi.in' } : DEV_STUDENT_MODE ? { name: 'Rahul Verma', role: 'STUDENT', email: 'rahul@saathi.in' } : null;
+  const [user, setUser] = useState(devMode ? devUser : null);
+  const [token, setToken] = useState(devMode ? 'dev-token' : initialToken);
+  const [loading, setLoading] = useState(devMode ? false : true);
 
   useEffect(() => {
-    if (DEV_ADMIN_MODE) return;
+    if (devMode) return;
     const initAuth = async () => {
       if (token) {
         try {
