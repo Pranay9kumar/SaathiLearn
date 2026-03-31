@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { 
-  BookOpen, LogOut, LayoutDashboard, Users, 
-  HeartHandshake, TrendingUp, BarChart2, MessageSquare, 
-  History, Settings, FileText
+import {
+  BookOpen, LogOut, LayoutDashboard, Users,
+  TrendingUp, BarChart2, MessageSquare,
+  Settings, FileText, ClipboardList, Building2,
+  UserCog, PieChart
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -22,73 +23,125 @@ export const Sidebar = ({ requestCount = 0 }) => {
       case 'STUDENT':
         return (
           <>
+            <div className="sidebar-section-label">Learning</div>
             <NavLink to="/student/dashboard" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <LayoutDashboard size={20} className="nav-icon" />
+                <LayoutDashboard size={18} className="nav-icon" />
                 <span>Dashboard</span>
               </div>
             </NavLink>
             <NavLink to="/student/missions" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <BookOpen size={20} className="nav-icon" />
+                <BookOpen size={18} className="nav-icon" />
                 <span>Missions</span>
               </div>
             </NavLink>
           </>
         );
+
       case 'MENTOR':
         return (
           <>
+            <div className="sidebar-section-label">Overview</div>
             <NavLink to="/mentor/dashboard" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <LayoutDashboard size={20} className="nav-icon" />
+                <LayoutDashboard size={18} className="nav-icon" />
                 <span>Dashboard</span>
               </div>
             </NavLink>
+
+            <div className="sidebar-section-label">Manage</div>
             <NavLink to="/mentor/students" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <Users size={20} className="nav-icon" />
+                <Users size={18} className="nav-icon" />
                 <span>Students</span>
               </div>
             </NavLink>
             <NavLink to="/mentor/assignments" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <FileText size={20} className="nav-icon" />
+                <FileText size={18} className="nav-icon" />
                 <span>Assignments</span>
               </div>
             </NavLink>
             <NavLink to="/mentor/requests" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <MessageSquare size={20} className="nav-icon" />
+                <MessageSquare size={18} className="nav-icon" />
                 <span>Doubts</span>
               </div>
               {requestCount > 0 && <span className="nav-badge animate-pulse">{requestCount}</span>}
             </NavLink>
+
+            <div className="sidebar-section-label">Insights</div>
             <NavLink to="/mentor/analytics" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <BarChart2 size={20} className="nav-icon" />
+                <BarChart2 size={18} className="nav-icon" />
                 <span>Reports</span>
               </div>
             </NavLink>
             <NavLink to="/mentor/settings" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <Settings size={20} className="nav-icon" />
+                <Settings size={18} className="nav-icon" />
                 <span>Settings</span>
               </div>
             </NavLink>
           </>
         );
+
       case 'ADMIN':
         return (
           <>
-            <NavLink to="/admin/ngo" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+            <div className="sidebar-section-label">Overview</div>
+            <NavLink to="/admin/dashboard" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
               <div className="nav-item-content">
-                <TrendingUp size={20} className="nav-icon" />
-                <span>NGO Metrics</span>
+                <LayoutDashboard size={18} className="nav-icon" />
+                <span>Dashboard</span>
+              </div>
+            </NavLink>
+
+            <div className="sidebar-section-label">Management</div>
+            <NavLink to="/admin/mentors" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <UserCog size={18} className="nav-icon" />
+                <span>Mentors</span>
+              </div>
+            </NavLink>
+            <NavLink to="/admin/students" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <Users size={18} className="nav-icon" />
+                <span>Students</span>
+              </div>
+            </NavLink>
+            <NavLink to="/admin/requests" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <MessageSquare size={18} className="nav-icon" />
+                <span>Requests</span>
+              </div>
+            </NavLink>
+
+            <div className="sidebar-section-label">Insights</div>
+            <NavLink to="/admin/analytics" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <PieChart size={18} className="nav-icon" />
+                <span>Analytics</span>
+              </div>
+            </NavLink>
+            <NavLink to="/admin/reports" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <ClipboardList size={18} className="nav-icon" />
+                <span>Reports</span>
+              </div>
+            </NavLink>
+
+            <div className="sidebar-section-label">System</div>
+            <NavLink to="/admin/settings" className={({isActive}) => isActive ? 'nav-item active' : 'nav-item'}>
+              <div className="nav-item-content">
+                <Settings size={18} className="nav-icon" />
+                <span>Settings</span>
               </div>
             </NavLink>
           </>
         );
+
       default:
         return null;
     }
@@ -102,14 +155,14 @@ export const Sidebar = ({ requestCount = 0 }) => {
           Saathi<span style={{ color: 'var(--brand-green)' }}>Learn</span>
         </div>
       </div>
-      
+
       <nav className="sidebar-nav">
         {renderLinks()}
       </nav>
 
       <div className="sidebar-footer">
         <button className="logout-btn" onClick={handleLogout}>
-          <LogOut size={20} className="nav-icon" />
+          <LogOut size={18} className="nav-icon" />
           <span>Logout</span>
         </button>
       </div>

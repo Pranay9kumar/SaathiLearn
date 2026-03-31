@@ -1,10 +1,10 @@
-﻿import React from 'react';
+import React from 'react';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="flex h-screen bg-[#f8fafc] overflow-hidden">
+    <div className="flex h-screen bg-[var(--bg-main)] overflow-hidden">
       {/* Sidebar */}
       <Sidebar />
 
@@ -18,7 +18,7 @@ const DashboardLayout = ({ children }) => {
           className="flex-1 overflow-y-auto"
           style={{ paddingTop: 'var(--topbar-h)' }}
         >
-          <div className="px-8 py-8 max-w-[1400px] mx-auto">
+          <div className="px-6 py-6 lg:px-8 lg:py-8 max-w-[1440px] mx-auto">
             {children}
           </div>
         </main>

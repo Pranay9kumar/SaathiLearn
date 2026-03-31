@@ -15,7 +15,15 @@ import MentorAssignments from './pages/Mentor/Assignments';
 import MentorStudentProfile from './pages/Mentor/StudentProfile';
 import MentorAnalytics from './pages/Mentor/Analytics';
 import { Chat as MentorChat, History as MentorHistory, Settings as MentorSettings } from './pages/Mentor/Settings';
+
+// Admin Pages
 import NGODashboard from './pages/Admin/NGODashboard';
+import AdminMentors from './pages/Admin/Mentors';
+import AdminStudents from './pages/Admin/Students';
+import AdminAnalytics from './pages/Admin/Analytics';
+import AdminReports from './pages/Admin/Reports';
+import AdminRequests from './pages/Admin/Requests';
+import AdminSettings from './pages/Admin/Settings';
 
 const getDashboardPathByRole = (role) => {
   switch (role) {
@@ -24,7 +32,7 @@ const getDashboardPathByRole = (role) => {
     case 'MENTOR':
       return '/mentor/dashboard';
     case 'ADMIN':
-      return '/admin/ngo';
+      return '/admin/dashboard';
     default:
       return '/login';
   }
@@ -152,10 +160,57 @@ function App() {
       } />
 
       {/* Admin Routes */}
-      <Route path="/admin/ngo" element={
+      <Route path="/admin/dashboard" element={
         <ProtectedRoute allowedRoles={['ADMIN']}>
           <DashboardLayout>
             <NGODashboard />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/ngo" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <Navigate to="/admin/dashboard" replace />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/mentors" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <DashboardLayout>
+            <AdminMentors />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/students" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <DashboardLayout>
+            <AdminStudents />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/analytics" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <DashboardLayout>
+            <AdminAnalytics />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/reports" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <DashboardLayout>
+            <AdminReports />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/requests" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <DashboardLayout>
+            <AdminRequests />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/settings" element={
+        <ProtectedRoute allowedRoles={['ADMIN']}>
+          <DashboardLayout>
+            <AdminSettings />
           </DashboardLayout>
         </ProtectedRoute>
       } />
