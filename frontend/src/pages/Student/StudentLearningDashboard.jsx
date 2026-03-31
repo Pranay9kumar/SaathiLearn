@@ -15,43 +15,68 @@ const StudentLearningDashboard = () => {
   const [activeSidebar, setActiveSidebar] = useState(null);
 
   const subjects = [
-    { name: 'Computer Science', color: '#007bff', progress: 75 },
-    { name: 'Biology', color: '#28a745', progress: 60 },
-    { name: 'History', color: '#fd7e14', progress: 90 },
-    { name: 'Mathematics', color: '#6f42c1', progress: 50 },
-    { name: 'Physics', color: '#dc3545', progress: 80 },
+    { 
+      name: 'maths', 
+      color: '#6f42c1', 
+      progress: 50,
+      textbooks: [] // Will be populated with textbook datasets
+    },
+    { 
+      name: 'science', 
+      color: '#28a745', 
+      progress: 60,
+      textbooks: [] // Will be populated with textbook datasets
+    },
+    { 
+      name: 'english', 
+      color: '#fd7e14', 
+      progress: 90,
+      textbooks: [] // Will be populated with textbook datasets
+    },
+    { 
+      name: 'social', 
+      color: '#dc3545', 
+      progress: 80,
+      textbooks: [] // Will be populated with textbook datasets
+    },
+    { 
+      name: 'hindi', 
+      color: '#007bff', 
+      progress: 75,
+      textbooks: [] // Will be populated with textbook datasets
+    },
   ];
 
   const chapters = {
-    'Computer Science': [
-      { name: 'Introduction to Programming', subtitle: 'Basics of coding', status: 'Completed' },
-      { name: 'Data Structures', subtitle: 'Arrays and lists', status: 'In Progress' },
-      { name: 'Algorithms', subtitle: 'Sorting and searching', status: 'Locked' },
-      { name: 'Object-Oriented Programming', subtitle: 'Classes and objects', status: 'Locked' },
-    ],
-    'Biology': [
-      { name: 'Cell Biology', subtitle: 'Structure and function', status: 'Completed' },
-      { name: 'Genetics', subtitle: 'DNA and inheritance', status: 'In Progress' },
-      { name: 'Ecology', subtitle: 'Ecosystems and interactions', status: 'Locked' },
-      { name: 'Evolution', subtitle: 'Natural selection', status: 'Locked' },
-    ],
-    'History': [
-      { name: 'Ancient Civilizations', subtitle: 'Early human societies', status: 'Completed' },
-      { name: 'World Wars', subtitle: '20th century conflicts', status: 'Completed' },
-      { name: 'Modern History', subtitle: 'Post-WWII era', status: 'In Progress' },
-      { name: 'Cultural Revolutions', subtitle: 'Social changes', status: 'Locked' },
-    ],
-    'Mathematics': [
+    'maths': [
       { name: 'Algebra', subtitle: 'Equations and functions', status: 'Completed' },
       { name: 'Geometry', subtitle: 'Shapes and theorems', status: 'In Progress' },
       { name: 'Calculus', subtitle: 'Limits and derivatives', status: 'Locked' },
       { name: 'Statistics', subtitle: 'Data analysis', status: 'Locked' },
     ],
-    'Physics': [
-      { name: 'Mechanics', subtitle: 'Motion and forces', status: 'Completed' },
-      { name: 'Electricity', subtitle: 'Circuits and magnetism', status: 'Completed' },
-      { name: 'Thermodynamics', subtitle: 'Heat and energy', status: 'In Progress' },
-      { name: 'Quantum Physics', subtitle: 'Atomic and subatomic', status: 'Locked' },
+    'science': [
+      { name: 'Physics', subtitle: 'Motion and forces', status: 'Completed' },
+      { name: 'Chemistry', subtitle: 'Matter and reactions', status: 'Completed' },
+      { name: 'Biology', subtitle: 'Life and organisms', status: 'In Progress' },
+      { name: 'Earth Science', subtitle: 'Planet and environment', status: 'Locked' },
+    ],
+    'english': [
+      { name: 'Grammar', subtitle: 'Parts of speech', status: 'Completed' },
+      { name: 'Literature', subtitle: 'Poems and stories', status: 'Completed' },
+      { name: 'Writing', subtitle: 'Essays and letters', status: 'In Progress' },
+      { name: 'Comprehension', subtitle: 'Reading skills', status: 'Locked' },
+    ],
+    'social': [
+      { name: 'History', subtitle: 'Ancient civilizations', status: 'Completed' },
+      { name: 'Geography', subtitle: 'Maps and continents', status: 'In Progress' },
+      { name: 'Civics', subtitle: 'Government and society', status: 'Locked' },
+      { name: 'Economics', subtitle: 'Money and trade', status: 'Locked' },
+    ],
+    'hindi': [
+      { name: 'Grammar', subtitle: 'व्याकरण', status: 'Completed' },
+      { name: 'Literature', subtitle: 'साहित्य', status: 'In Progress' },
+      { name: 'Writing', subtitle: 'लेखन', status: 'Locked' },
+      { name: 'Comprehension', subtitle: 'पठन कौशल', status: 'Locked' },
     ],
   };
 
