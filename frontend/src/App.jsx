@@ -8,6 +8,7 @@ import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import Landing from './pages/Landing';
 import StudentDashboard from './pages/Student/Dashboard';
+import DoubtsPage from './pages/Student/DoubtsPage';
 import MentorDashboard from './pages/Mentor/Dashboard';
 import MentorStudents from './pages/Mentor/Students';
 import MentorRequests from './pages/Mentor/Requests';
@@ -82,6 +83,14 @@ function App() {
         <ProtectedRoute allowedRoles={['STUDENT']}>
           <DashboardLayout>
             <StudentDashboard />
+          </DashboardLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/student/doubts" element={
+        <ProtectedRoute allowedRoles={['STUDENT']}>
+          <DashboardLayout>
+            <DoubtsPage />
           </DashboardLayout>
         </ProtectedRoute>
       } />

@@ -1,26 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const TableCard = ({ title, subtitle, columns, rows, onRowClick }) => (
+const TableCard = ({ title, subtitle, columns, rows, onRowClick, delay = 0 }) => (
   <motion.div
-    className="bg-white rounded-2xl border border-[#e5e7eb] overflow-hidden"
-    initial={{ opacity: 0, y: 16 }}
+    className="bg-white rounded-2xl border border-[#e0e7ff] overflow-hidden h-full flex flex-col shadow-[0_4px_16px_rgba(14,165,233,0.08)] hover:shadow-[0_12px_32px_rgba(14,165,233,0.15)] transition-all duration-300"
+    initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.35, ease: 'easeOut', delay: 0.1 }}
+    transition={{ duration: 0.4, ease: 'easeOut', delay }}
   >
-    <div className="px-5 py-4 border-b border-slate-100">
-      <div className="text-sm font-semibold text-slate-900">{title}</div>
-      {subtitle && <div className="text-xs text-slate-400 mt-0.5">{subtitle}</div>}
+    <div className="px-6 py-5 border-b border-[#e0e7ff] bg-gradient-to-r from-blue-50 to-cyan-50">
+      <div className="text-base font-bold text-slate-900">{title}</div>
+      {subtitle && <div className="text-sm text-slate-600 mt-1 font-medium">{subtitle}</div>}
     </div>
 
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto flex-1">
       <table className="w-full table-auto">
         <thead>
-          <tr className="border-b border-slate-100">
+          <tr className="border-b border-[#e0e7ff] h-12 bg-blue-50/50">
             {columns.map((col) => (
               <th
                 key={col.key}
-                className={`py-2.5 px-4 text-[11px] uppercase tracking-widest text-slate-400 font-semibold ${
+                className={`py-3 px-5 text-[11px] uppercase tracking-widest text-slate-600 font-bold ${
                   col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left'
                 }`}
               >
@@ -36,13 +36,13 @@ const TableCard = ({ title, subtitle, columns, rows, onRowClick }) => (
               <tr
                 key={key}
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
-                className={`border-b border-slate-50 last:border-0 hover:bg-slate-50/70 transition-colors ${onRowClick ? 'cursor-pointer' : ''}`}
+                className={`border-b border-[#e0e7ff] last:border-0 hover:bg-blue-50/60 transition-colors h-14 ${onRowClick ? 'cursor-pointer' : ''}`}
               >
                 {columns.map((col) => {
                   const content = col.render ? col.render(row) : row[col.key];
                   const align = col.align === 'right' ? 'text-right' : col.align === 'center' ? 'text-center' : 'text-left';
                   return (
-                    <td key={col.key} className={`py-3 px-4 align-middle ${align}`}>
+                    <td key={col.key} className={`py-3 px-5 align-middle font-medium text-slate-800 ${align}`}>
                       {col.truncate !== false ? (
                         <div className="truncate max-w-[180px]">{content}</div>
                       ) : (

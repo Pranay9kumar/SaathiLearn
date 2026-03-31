@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const validate = require('../middleware/validate');
 const { authenticate, authorize } = require('../middleware/auth');
 const mentorController = require('../controllers/mentor.controller');
@@ -8,6 +8,32 @@ const router = Router();
 
 // All mentor routes require authentication
 router.use(authenticate);
+
+/**
+ * POST /api/mentor/connect/:mentorId
+ * Student connects with a mentor
+ */
+router.post(
+  '/connect/:mentorId',
+  authorize('STUDENT'),
+  [
+    param('mentorId')
+      .notEmpty()
+      .withMessage('Mentor ID is required.'),
+    body('subject')
+      .optional()
+      .trim()
+      .isLength({ max: 100 })
+      .withMessage('Subject must be under 100 characters.'),
+    body('message')
+      .optional()
+      .trim()
+      .isLength({ max: 500 })
+      .withMessage('Message must be under 500 characters.'),
+    validate,
+  ],
+  mentorController.connectWithMentor
+);
 
 /**
  * POST /api/mentor/request

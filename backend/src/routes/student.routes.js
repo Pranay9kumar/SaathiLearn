@@ -31,4 +31,16 @@ router.get('/streak', studentController.getStreak);
  */
 router.get('/leaderboard', studentController.getLeaderboard);
 
+/**
+ * GET /api/student/learning-plan
+ * Get AI-generated personalized learning plan
+ */
+router.get('/learning-plan', studentController.getLearningPlan);
+
+/**
+ * GET /api/student/available-mentors
+ * Get list of available mentors to connect with
+ */
+router.get('/available-mentors', studentController.getAvailableMentors);
+
 module.exports = router;
