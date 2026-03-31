@@ -2,6 +2,41 @@ const catchAsync = require('../utils/catchAsync');
 const mentorService = require('../services/mentor.service');
 
 /**
+ * POST /api/mentor/connect/:mentorId
+ * Student connects with a mentor
+ */
+const connectWithMentor = catchAsync(async (req, res) => {
+  const { mentorId } = req.params;
+  const { subject, message } = req.body;
+  const studentId = req.user.id;
+
+  const connection = await mentorService.connectWithMentor(
+    studentId,
+    mentorId,
+    subject,
+    message
+  );
+
+  // Emit real-time notification to mentor
+  const io = req.app.get('io');
+  if (io) {
+    io.to(`user:${mentorId}`).emit('mentor:connectionRequest', {
+      requestId: connection.id,
+      student: { id: studentId, name: req.user.name },
+      subject: connection.subject,
+      message: connection.message,
+      createdAt: connection.createdAt,
+    });
+  }
+
+  res.status(201).json({
+    success: true,
+    message: 'Connection request sent to mentor!',
+    data: connection,
+  });
+});
+
+/**
  * POST /api/mentor/request
  */
 const createRequest = catchAsync(async (req, res) => {
@@ -94,4 +129,4 @@ const replyToRequest = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { createRequest, getStudents, getRequests, replyToRequest };
+module.exports = { connectWithMentor, createRequest, getStudents, getRequests, replyToRequest };

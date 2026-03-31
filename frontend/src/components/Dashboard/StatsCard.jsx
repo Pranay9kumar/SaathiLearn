@@ -12,15 +12,15 @@ const MiniSpark = ({ series, isUp }) => {
     const y = 30 - ((v - min) / range) * 22;
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   });
-  const stroke = isUp ? '#10b981' : '#ef4444';
+  const stroke = isUp ? '#06b6d4' : '#f43f5e';
   return (
-    <div className="w-full h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center px-2">
+    <div className="w-full h-10 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-[#e0e7ff] flex items-center px-2">
       <svg viewBox="0 0 100 30" preserveAspectRatio="none" className="w-full h-full">
-        <polyline points={pts.join(' ')} fill="none" stroke={stroke} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        <polyline points={pts.join(' ')} fill="none" stroke={stroke} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
         <polyline
           points={`${pts.join(' ')} 100,30 0,30`}
           fill={stroke}
-          fillOpacity="0.08"
+          fillOpacity="0.12"
           stroke="none"
         />
       </svg>
@@ -35,24 +35,37 @@ const StatsCard = ({ title, value, trend, series, onClick, delay = 0 }) => {
 
   return (
     <motion.div
-      className="bg-white rounded-2xl border border-[#e5e7eb] p-5 flex flex-col gap-3 cursor-pointer transition-all duration-200 hover:shadow-[0_10px_25px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 hover:border-slate-300"
+      className="bg-white rounded-2xl border border-[#e0e7ff] p-6 flex flex-col gap-4 cursor-pointer transition-all duration-300 hover:shadow-[0_12px_32px_rgba(14,165,233,0.15)] hover:-translate-y-1 hover:border-cyan-400 h-full shadow-[0_4px_16px_rgba(14,165,233,0.08)]"
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: 'easeOut', delay }}
+      transition={{ duration: 0.4, ease: 'easeOut', delay }}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <div>
-          <div className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">{title}</div>
-          <div className="text-3xl font-bold text-slate-900 leading-none mt-2 font-[Syne,sans-serif]">{value}</div>
+          <div className="text-[10px] uppercase tracking-widest text-slate-600 font-bold">
+            {title}
+          </div>
+          <div className="text-3xl font-bold text-slate-900 leading-none mt-3 font-['Plus_Jakarta_Sans',sans-serif]">
+            {value}
+          </div>
         </div>
         {trend !== undefined && trend !== null && (
-          <div className={`flex items-center gap-1 text-xs font-bold mt-1 ${isUp ? 'text-emerald-600' : 'text-red-500'}`}>
-            {isUp ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: delay + 0.2 }}
+            className={`flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg ${
+              isUp 
+                ? 'bg-emerald-50 text-emerald-700' 
+                : 'bg-red-50 text-red-700'
+            }`}
+          >
+            {isUp ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
             <span>{trendText}</span>
-          </div>
+          </motion.div>
         )}
       </div>
       <MiniSpark series={series} isUp={isUp} />

@@ -9,7 +9,7 @@ const DashboardGrid = ({ analytics, table, activity, alerts, insights }) => (
       {analytics}
       {table}
     </section>
-    <aside className="xl:col-span-1 flex flex-col gap-5">
+    <aside className="xl:col-span-1 flex flex-col gap-5 max-h-full">
       {activity}
       {alerts}
       {insights}

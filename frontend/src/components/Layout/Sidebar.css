@@ -6,11 +6,12 @@
   padding: 1.5rem 0;
   flex-shrink: 0;
   background: #ffffff;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid #e0e7ff;
   z-index: 40;
   overflow-y: auto;
   overflow-x: hidden;
   transition: width 0.3s ease;
+  box-shadow: 2px 0 8px rgba(14, 165, 233, 0.04);
 }
 
 .sidebar-header {
@@ -21,26 +22,27 @@
 }
 
 .logo-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: #2563eb;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 800;
-  font-family: 'Syne', sans-serif;
-  font-size: 0.875rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
 .brand-logo {
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   letter-spacing: -0.5px;
   font-weight: 800;
-  color: #111827;
-  font-family: 'Syne', sans-serif;
+  color: #0a0e27;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   white-space: nowrap;
 }
 
@@ -63,16 +65,16 @@
 }
 
 .nav-item {
-  color: #6B7280;
+  color: #6b7694;
   font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.875rem;
-  border-radius: 8px;
-  transition: all 0.15s ease;
+  padding: 0.75rem 0.875rem;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .nav-item-content {
@@ -82,23 +84,27 @@
 }
 
 .nav-item:hover {
-  background: #f8fafc;
-  color: #111827;
+  background: #f0f5ff;
+  color: #0a0e27;
+  transform: translateX(2px);
 }
 
 .nav-item.active {
-  background: #eff6ff;
-  color: #2563eb;
-  font-weight: 600;
+  background: linear-gradient(135deg, #e0f2fe 0%, #ecf9ff 100%);
+  color: #0ea5e9;
+  border-left: 3px solid #0ea5e9;
+  border-radius: 0 10px 10px 0;
+  padding-left: calc(0.875rem - 3px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
 }
 
 .nav-icon {
-  transition: all 0.15s ease;
+  transition: all 0.25s ease;
   flex-shrink: 0;
 }
 
 .nav-badge {
-  background: #ef4444;
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
   color: white;
   font-size: 0.65rem;
   font-weight: 700;

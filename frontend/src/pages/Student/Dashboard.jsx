@@ -1,12 +1,16 @@
 import React, { useContext, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import Card from '../../components/UI/Card';
 import StatsCard from '../../components/Dashboard/StatsCard';
 import DashboardGrid from '../../components/Dashboard/DashboardGrid';
 import TableCard from '../../components/Dashboard/TableCard';
 import ActivityPanel from '../../components/Dashboard/ActivityPanel';
+import AlertsInsightsCard from '../../components/Dashboard/AlertsInsightsCard';
+import LearningPlanCard from '../../components/Dashboard/LearningPlanCard';
+import MentorConnectionCard from '../../components/Dashboard/MentorConnectionCard';
 
 const StudentDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -59,41 +63,42 @@ const StudentDashboard = () => {
     { id: 'a4', text: 'In review: Periodic Table Quiz',         subText: 'Mentor feedback pending',   time: '3 days ago',  tone: 'warning' },
   ], []);
 
-  const alerts = useMemo(() => [
-    { id: 'al1', text: '2 missions due this week. Plan your schedule to avoid delays.' },
-    { id: 'al2', text: 'Your streak is strong. One quick quiz today keeps momentum.' },
-    { id: 'al3', text: 'Open "In Review" items to unlock mentor badges.' },
-  ], []);
-
-  const insights = useMemo(() => [
-    { id: 'in1', label: 'Most active subject', value: 'Math',    tone: 'success' },
-    { id: 'in2', label: 'Focus area',          value: 'Reading', tone: 'warning' },
-    { id: 'in3', label: 'Next milestone',      value: 'Level 6', tone: 'info' },
-  ], []);
-
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       {/* Page header */}
       <motion.header
-        className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between"
-        initial={{ opacity: 0, y: -10 }}
+        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.4 }}
       >
         <div>
-          <div className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">Student Dashboard</div>
-          <h1 className="text-[1.75rem] font-extrabold text-slate-900 mt-1.5 leading-tight">
-            Welcome, {user?.name || 'Student'}
+          <div className="text-xs uppercase tracking-wider text-indigo-600 font-bold">📊 Student Dashboard</div>
+          <h1 className="text-4xl font-bold text-slate-900 mt-2 leading-tight font-['Plus_Jakarta_Sans',sans-serif]">
+            Welcome back, {user?.name || 'Student'}! 👋
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Your learning progress at a glance.</p>
+          <p className="text-base text-slate-600 mt-3 font-medium">Track your learning journey and master new skills</p>
         </div>
-        <button
-          type="button"
-          onClick={() => navigate('/student/missions')}
-          className="mt-4 sm:mt-0 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-        >
-          Go to Missions →
-        </button>
+        <div className="flex gap-3 sm:flex-col lg:flex-row">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="button"
+            onClick={() => navigate('/student/missions')}
+            className="px-5 py-3 font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition-all border border-indigo-200 text-sm"
+          >
+            📚 My Missions
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/student/doubts')}
+            className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-[0_8px_16px_rgba(37,99,235,0.3)] transition-all text-sm"
+          >
+            <MessageCircle size={18} />
+            Ask a Doubt
+          </motion.button>
+        </div>
       </motion.header>
 
       {/* Stats row */}
@@ -111,33 +116,45 @@ const StudentDashboard = () => {
         ))}
       </section>
 
-      {/* Main grid */}
+      {/* Main grid - Analytics, Missions, Activity */}
       <DashboardGrid
         analytics={
-          <Card>
-            <div className="flex items-start justify-between gap-4">
+          <Card delay={0}>
+            <div className="flex items-start justify-between gap-4 mb-5">
               <div>
-                <div className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">Weekly analytics</div>
-                <div className="text-base font-semibold text-slate-900 mt-1.5">XP growth and activity</div>
-                <div className="text-xs text-slate-400 mt-0.5">Last 7 days · steady improvements</div>
+                <div className="text-xs uppercase tracking-wider text-indigo-600 font-bold">📈 Weekly Analytics</div>
+                <div className="text-xl font-bold text-slate-900 mt-2">XP Growth & Activity</div>
+                <div className="text-sm text-slate-600 mt-1 font-medium">Last 7 days · Steady improvement</div>
               </div>
-              <div className="text-xs font-bold text-emerald-600 flex items-center gap-1.5 whitespace-nowrap mt-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+              <div className="text-sm font-bold text-emerald-600 flex items-center gap-2 whitespace-nowrap px-3 py-1.5 bg-emerald-50 rounded-lg border border-emerald-200">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 +8.4% this week
               </div>
             </div>
 
-            <div className="mt-4 h-36 w-full rounded-xl border border-slate-100 bg-slate-50 overflow-hidden">
+            <div className="mt-5 h-40 w-full rounded-xl border border-[#e0e7ff] bg-gradient-to-br from-blue-50 to-cyan-50 overflow-hidden shadow-sm">
               <svg viewBox="0 0 800 144" width="100%" height="100%" preserveAspectRatio="none">
                 <polyline
                   points="40,110 120,88 200,100 280,62 360,70 440,48 520,54 600,30 680,40 760,20"
-                  fill="none" stroke="#2563eb" strokeWidth="3.5"
+                  fill="none" stroke="url(#grad1)" strokeWidth="3.5"
                   strokeLinejoin="round" strokeLinecap="round"
                 />
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#0ea5e9" />
+                    <stop offset="100%" stopColor="#06b6d4" />
+                  </linearGradient>
+                </defs>
                 <polyline
                   points="40,110 120,88 200,100 280,62 360,70 440,48 520,54 600,30 680,40 760,20 760,144 40,144"
-                  fill="#2563eb" fillOpacity="0.06" stroke="none"
+                  fill="url(#grad2)" stroke="none"
                 />
+                <defs>
+                  <linearGradient id="grad2">
+                    <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.15"/>
+                    <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.05"/>
+                  </linearGradient>
+                </defs>
               </svg>
             </div>
 
@@ -156,58 +173,24 @@ const StudentDashboard = () => {
           />
         }
         activity={<ActivityPanel title="Recent Activity" items={activityItems} />}
-        alerts={
-          <motion.div
-            className="bg-white rounded-2xl border border-[#e5e7eb] overflow-hidden"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: 'easeOut', delay: 0.2 }}
-          >
-            <div className="px-5 py-4 border-b border-slate-100">
-              <div className="text-sm font-semibold text-slate-900">Alerts</div>
-              <div className="text-xs text-slate-400 mt-0.5">Actionable reminders</div>
-            </div>
-            <div className="p-3 flex flex-col gap-1">
-              {alerts.map((a) => (
-                <div key={a.id} className="px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
-                  <div className="text-sm text-slate-700">{a.text}</div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        }
-        insights={
-          <motion.div
-            className="bg-white rounded-2xl border border-[#e5e7eb] overflow-hidden"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, ease: 'easeOut', delay: 0.25 }}
-          >
-            <div className="px-5 py-4 border-b border-slate-100">
-              <div className="text-sm font-semibold text-slate-900">Insights</div>
-              <div className="text-xs text-slate-400 mt-0.5">Personalized signals</div>
-            </div>
-            <div className="p-3 flex flex-col gap-1">
-              {insights.map((ins) => {
-                const t = ins.tone === 'success'
-                  ? { dot: 'bg-emerald-500', text: 'text-emerald-700' }
-                  : ins.tone === 'warning'
-                    ? { dot: 'bg-amber-500', text: 'text-amber-700' }
-                    : { dot: 'bg-blue-500', text: 'text-blue-700' };
-                return (
-                  <div key={ins.id} className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
-                    <div>
-                      <div className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">{ins.label}</div>
-                      <div className={`text-sm font-semibold ${t.text} mt-0.5`}>{ins.value}</div>
-                    </div>
-                    <div className={`w-2 h-2 rounded-full ${t.dot}`} />
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
-        }
       />
+
+      {/* New sections - Alerts & Insights, Mentors, Learning Plan */}
+      <section className="space-y-8">
+        {/* Improved Alerts & Insights */}
+        <AlertsInsightsCard />
+
+        {/* Mentor Connection */}
+        <MentorConnectionCard 
+          onMentorSelect={(mentor) => {
+            console.log('Selected mentor:', mentor);
+            // Could navigate to mentor chat or open a modal
+          }}
+        />
+
+        {/* Personalized Learning Plan */}
+        <LearningPlanCard />
+      </section>
     </div>
   );
 };
