@@ -234,6 +234,6 @@ export const mentorAPI = {
   }
 };
 
-export const requestMentorHelp = async (requestOptions) => {
+export const requestMentorHelp = async () => {
   return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 400));
 };

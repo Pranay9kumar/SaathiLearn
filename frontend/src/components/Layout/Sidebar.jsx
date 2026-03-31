@@ -95,7 +95,7 @@ export const Sidebar = ({ requestCount = 0 }) => {
   };
 
   return (
-    <div className="sidebar-container glass-panel">
+    <div className="sidebar-container">
       <div className="sidebar-header">
         <div className="logo-icon">S</div>
         <div className="brand-logo">

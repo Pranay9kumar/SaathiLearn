@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
-import { Sidebar } from './components/Layout/Sidebar';
+import DashboardLayout from './components/Layout/DashboardLayout';
 
 // Pages
 import Login from './pages/Auth/Login';
@@ -62,19 +62,6 @@ const PublicOnlyRoute = ({ children }) => {
   return children;
 };
 
-import { Topbar } from './components/Layout/Topbar';
-
-const DashboardLayout = ({ children }) => (
-  <div className="app-container">
-    <Sidebar />
-    <main className="main-content">
-      <Topbar />
-      <div className="dash-content">
-        {children}
-      </div>
-    </main>
-  </div>
-);
 
 function App() {
   const { user, loading } = useContext(AuthContext);

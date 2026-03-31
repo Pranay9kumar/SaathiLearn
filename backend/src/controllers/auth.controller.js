@@ -7,21 +7,45 @@ const authService = require('../services/auth.service');
 const signup = catchAsync(async (req, res) => {
   const { name, email, password, role, class: className, subjects, activities } = req.body;
 
-  const result = await authService.signup({
+  if (!req.app.locals.mongoReady) {
+    return res.status(503).json({
+      success: false,
+      message: 'MongoDB is not connected yet. Please try again in a moment.',
+    });
+  }
+
+  console.log('[signup] incoming:', {
     name,
     email,
-    password,
     role,
     className,
     subjects,
     activities,
+    password: password ? '[redacted]' : undefined,
   });
 
-  res.status(201).json({
-    success: true,
-    message: 'Account created successfully.',
-    data: result,
-  });
+  try {
+    const result = await authService.signup({
+      name,
+      email,
+      password,
+      role,
+      className,
+      subjects,
+      activities,
+    });
+
+    console.log('[signup] success:', email);
+
+    res.status(201).json({
+      success: true,
+      message: 'Account created successfully.',
+      data: result,
+    });
+  } catch (err) {
+    console.error('[signup] failure:', err.message);
+    throw err;
+  }
 });
 
 /**
