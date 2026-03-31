@@ -17,7 +17,6 @@ import StudentLeaderboard from './pages/Student/GradeRanking';
 import StudentMentor from './pages/Student/Mentor';
 import StudentAIHelp from './pages/Student/AIAssistance';
 import StudentProfile from './pages/Student/Profile';
-import DoubtsPage from './pages/Student/DoubtsPage';
 
 // Mentor Pages
 import MentorDashboard from './pages/Mentor/Dashboard';
@@ -107,8 +106,6 @@ function App() {
       <Route path="/student/mentor"      element={<StudentRoute><StudentMentor /></StudentRoute>} />
       <Route path="/student/ai-help"     element={<StudentRoute><StudentAIHelp /></StudentRoute>} />
       <Route path="/student/profile"     element={<StudentRoute><StudentProfile /></StudentRoute>} />
-
-      <Route path="/student/doubts"      element={<StudentRoute><DoubtsPage /></StudentRoute>} />
 
       {/* ── Mentor Routes ── */}
       <Route path="/mentor/dashboard"    element={<MentorRoute><MentorDashboard /></MentorRoute>} />

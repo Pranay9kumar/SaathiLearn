@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -6,32 +6,24 @@
   --sidebar-w: 220px;
 
   /* ── Design System Colors ── */
-  --bg-main: #f8faff;
-  --bg-card: #ffffff;
-  --bg-soft: #f0f5ff;
+  --bg-main: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-soft: #f1f5f9;
 
-  --border: #e0e7ff;
+  --border: #E5E7EB;
   --border-light: #f1f5f9;
 
-  --text-primary: #0a0e27;
-  --text-secondary: #6b7694;
-  --text-muted: #9ca3b0;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #94a3b8;
 
-  --primary: #0ea5e9;
-  --primary-hover: #0284c7;
-  --primary-light: #e0f2fe;
+  --primary: #2563EB;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
 
-  --secondary: #06b6d4;
-  --secondary-hover: #0891b2;
-  --secondary-light: #ecf9ff;
-
-  --accent: #7c3aed;
-  --accent-hover: #6d28d9;
-  --accent-light: #efe6ff;
-
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #f43f5e;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
 
   --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
   --gradient-accent: linear-gradient(135deg, #7c3aed 0%, #0ea5e9 100%);
@@ -42,7 +34,7 @@
   --card-padding: 20px;
   --border-radius: 12px;
 
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.2s ease;
 }
 
 * {
@@ -67,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.3;
   color: var(--text-primary);
-  letter-spacing: -0.4px;
+  letter-spacing: -0.3px;
   margin-bottom: 0;
 }
 

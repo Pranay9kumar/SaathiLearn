@@ -22,10 +22,10 @@
 }
 
 .logo-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #2563eb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,8 +41,8 @@
   font-size: 1.125rem;
   letter-spacing: -0.5px;
   font-weight: 800;
-  color: #0a0e27;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #111827;
+  font-family: 'Syne', sans-serif;
   white-space: nowrap;
 }
 
@@ -65,14 +65,14 @@
 }
 
 .nav-item {
-  color: #6b7694;
+  color: #6B7280;
   font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0.875rem;
-  border-radius: 10px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.6rem 0.875rem;
+  border-radius: 8px;
+  transition: all 0.15s ease;
   text-decoration: none;
   font-weight: 600;
 }
@@ -84,18 +84,14 @@
 }
 
 .nav-item:hover {
-  background: #f0f5ff;
-  color: #0a0e27;
-  transform: translateX(2px);
+  background: #f8fafc;
+  color: #111827;
 }
 
 .nav-item.active {
-  background: linear-gradient(135deg, #e0f2fe 0%, #ecf9ff 100%);
-  color: #0ea5e9;
-  border-left: 3px solid #0ea5e9;
-  border-radius: 0 10px 10px 0;
-  padding-left: calc(0.875rem - 3px);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 600;
 }
 
 .nav-icon {
