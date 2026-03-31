@@ -1,9 +1,13 @@
- import React, { useState } from 'react';
-import ProgressTracking from './ProgressTracking';
-import Streak from './Streak';
-import Mentor from './Mentor';
-import AIAssistance from './AIAssistance';
-import GradeRanking from './GradeRanking';
+import React, { useState, Suspense } from 'react';
+
+// Lazy load components for code splitting
+const ProgressTracking = React.lazy(() => import('./ProgressTracking'));
+const Streak = React.lazy(() => import('./Streak'));
+const Mentor = React.lazy(() => import('./Mentor'));
+const AIAssistance = React.lazy(() => import('./AIAssistance'));
+const GradeRanking = React.lazy(() => import('./GradeRanking'));
+const Missions = React.lazy(() => import('./Missions'));
+const Profile = React.lazy(() => import('./Profile'));
 
 const StudentLearningDashboard = () => {
   const [currentView, setCurrentView] = useState('dashboard');
@@ -85,6 +89,11 @@ const StudentLearningDashboard = () => {
   const handleBack = () => {
     setCurrentView('dashboard');
     setActiveSidebar(null);
+  };
+
+  const handleLogout = () => {
+    alert('Logged out successfully!');
+    // Here you can add actual logout logic, like clearing tokens, redirecting, etc.
   };
 
   return (
@@ -230,64 +239,6 @@ const StudentLearningDashboard = () => {
         .completed { background: #28a745; color: white; }
         .in-progress { background: #ffc107; color: black; }
         .locked { background: #6c757d; color: white; }
-        .profile {
-          margin-top: 60px;
-        }
-        .profile-header {
-          text-align: center;
-          margin-bottom: 30px;
-        }
-        .profile-avatar {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background: #007bff;
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          margin: 0 auto 15px;
-        }
-        .stats {
-          display: flex;
-          justify-content: space-around;
-          margin: 30px 0;
-        }
-        .stat-card {
-          background: var(--card-bg);
-          padding: 20px;
-          border-radius: 8px;
-          text-align: center;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          flex: 1;
-          margin: 0 10px;
-        }
-        .stat-card h4 {
-          margin: 0 0 10px 0;
-          color: #666;
-        }
-        .stat-card p {
-          margin: 0;
-          font-size: 24px;
-          font-weight: bold;
-        }
-        .details {
-          list-style: none;
-          padding: 0;
-          background: var(--card-bg);
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .details li {
-          display: flex;
-          justify-content: space-between;
-          padding: 15px 20px;
-          border-bottom: 1px solid var(--border-color);
-        }
-        .details li:last-child {
-          border-bottom: none;
-        }
         .view {
           display: none;
           opacity: 0;
@@ -360,43 +311,20 @@ const StudentLearningDashboard = () => {
         </div>
         <div className={`view ${currentView === 'sidebar' ? 'active' : ''}`}>
           <button className="back-btn" onClick={handleBack}>Back</button>
-          {activeSidebar === 'Progress' && <ProgressTracking />}
-          {activeSidebar === 'Streak' && <Streak />}
-          {activeSidebar === 'Mentor' && <Mentor />}
-          {activeSidebar === 'AI Assistance' && <AIAssistance />}
-          {activeSidebar === 'Grade Rankings' && <GradeRanking />}
+          <Suspense fallback={<div>Loading...</div>}>
+            {activeSidebar === 'Missions' && <Missions />}
+            {activeSidebar === 'Progress' && <ProgressTracking />}
+            {activeSidebar === 'Streak' && <Streak />}
+            {activeSidebar === 'Mentor' && <Mentor />}
+            {activeSidebar === 'AI Assistance' && <AIAssistance />}
+            {activeSidebar === 'Grade Rankings' && <GradeRanking />}
+          </Suspense>
         </div>
         <div className={`view ${currentView === 'profile' ? 'active' : ''}`}>
           <button className="back-btn" onClick={handleBack}>Back</button>
-          <div className="profile">
-            <div className="profile-header">
-              <div className="profile-avatar">{student.avatar}</div>
-              <h2>{student.name}</h2>
-              <p>{student.grade} - {student.section}</p>
-            </div>
-            <div className="stats">
-              <div className="stat-card">
-                <h4>Grade</h4>
-                <p>{student.stats.grade}</p>
-              </div>
-              <div className="stat-card">
-                <h4>Class Rank</h4>
-                <p>{student.stats.classRank}</p>
-              </div>
-              <div className="stat-card">
-                <h4>Average Score</h4>
-                <p>{student.stats.averageScore}%</p>
-              </div>
-            </div>
-            <ul className="details">
-              {Object.entries(student.details).map(([key, value]) => (
-                <li key={key}>
-                  <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                  <span>{value}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Profile student={student} onLogout={handleLogout} />
+          </Suspense>
         </div>
       </div>
     </div>
